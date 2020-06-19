@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--meta tags-->
+    <meta charset="UTF-8">
+    <meta name="description" content="Services Listing HTML5 CSS3 template">
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript, services, listing">
+    <meta name="author" content="Ui-DesignLab">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--end meta tags-->
+
+    <title>花生</title>
+    <!--stylesheets-->
+    <link rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendor/css/animate.min.css">
+    <link rel="stylesheet" href="/vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/perfect-scrollbar/css/perfect-scrollbar.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <!--end stylesheets-->
+    <!--google fonts-->
+    <link href="/vendor/font-awesome-4.7.0/css/google1.css" rel="stylesheet">
+    <link href="/vendor/font-awesome-4.7.0/css/google1.css" rel="stylesheet">
+    <!--end google fonts-->
+</head>
+<body>
+<!--navigation bars-->
+
+<nav class="site-top-nav">
+    <div class="logo">
+        <a href="/index">
+            <img src="img/logo.jpg" alt="">
+            <strong>花生</strong>
+        </a>
+    </div>
+    <ul class="site-menu">
+		<li><a href="/index">家</a></li>
+		<li><a href="#">联系我们</a></li>
+		<li><a href="#">关于</a></li>
+    </ul>
+    <i class="nav-toggle fa fa-bars"></i>
+</nav>
+
+<!--手机侧面导航 -->
+<div id="side-nav" class="side-nav">
+    <div class="side-nav-menu perfect-scroll">
+        <div class="text-logo">
+            <a href="/index"><h3>花生</h3></a>
+        </div>
+        <div class="site-user">
+            <div class="site-user-img">
+                <img th:src="${session.user.avatar}" alt="">
+                <span class="online"></span>
+            </div>
+            <a href="/toPersonalCenter" class="user-name"><strong>程俊峰</strong></a>
+        </div>
+        <ul class="menu">
+            <li><a href="/index" class="current">主页</a></li>
+            <li><a th:href="@{'/getProByExample?userId='+${session.user.id}}">我上架的商品</a></li>
+            <a href="/myArticles" class="ui-btn ui-btn-info">我求购的帖子</a>
+            <li><a class="to_cart">购物车</a></li>
+            <li><a href="/toMyDealPage">交易记录</a></li>
+            <li><a href="#">留言信箱</a></li>
+        </ul>
+        <div class="logoutBtn"><a>注销</a></div>
+    </div>
+</div>
+<!--end 手机侧面导航 -->
+<!--end navigation bars-->
+
+<!--contact us-->
+<div class="contact-wrapper">
+    <div class="map-section">
+        <h1><strong>个人资料卡</strong></h1>
+        <p><a th:href="@{'/getProByExample?userId='+${session.user.id}}" class="ui-btn ui-btn-info">我上架的商品</a>
+        	<a href="/myArticles" class="ui-btn ui-btn-info">我求购的帖子</a>
+        	<a class="ui-btn ui-btn-info to_cart">购物车</a>
+        	<a href="/toMyDealPage" class="ui-btn ui-btn-info">交易记录</a>
+            <a href="/toMsgBox" class="ui-btn ui-btn-info">留言信箱</a>
+        </p>
+        <div id="toux">
+        	<img th:src="${session.user.avatar}" width="200px" style="float: left;"/>
+        	
+        	<div style="margin-left: 220px;">
+        		<p>昵称：<strong th:text="${session.user.userName}"></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性别：<strong th:text="${session.user.gender}"></strong> </p>
+                <p>姓名：<strong th:text="${session.user.realName}"></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手机：<strong th:text="${session.user.phone}"></strong> </p>
+                <p>邮箱：<strong th:text="${session.user.email}"></strong> </p>
+        		<p>小区名称：<strong th:text="${session.user.village}"></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细地址：<strong th:text="${session.user.address}"></strong> </p>
+        		<p th:if="${session.user.huiY == 1}"><strong>尊贵的VIP会员</strong> </p>
+                <p th:unless="${session.user.huiY == 1}"><strong>您还不是会员<a href="#">点击</a>加入 </strong> </p>
+        		<button>修改头像</button>
+        	</div>
+        </div>
+    </div>
+     
+    <div class="form-section">
+    	<h3>更改个人资料</h3>
+        <form>
+        	<div class="form-group">
+                <label for="userName"><strong>昵称</strong></label>
+                <input required type="text" id="userName" placeholder="用户名" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="userName"><strong>真实姓名</strong></label>
+                <input required type="text" id="realName" placeholder="真实姓名" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="gender"><strong>性别</strong></label>
+                <select class="form-control" id="gender">
+                    <option selected="selected" value="">选择性别</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="phone"><strong>手机</strong></label>
+                <input required type="number" id="phone" placeholder="手机号" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email"><strong>Email</strong></label>
+                <input required type="email" id="email" placeholder="you@example.com" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="village"><strong>小区名称</strong></label>
+                <select class="form-control" id="village">
+                    <option selected="selected" value="">选择小区</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="address"><strong>详细地址</strong></label>
+                <input required type="text" id="address" placeholder="详细地址" class="form-control">
+            </div>
+            <div class="form-group">
+                <button type="button" class="form-control ui-btn ui-btn-info" id="subBtn">确认修改</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--end contact us-->
+
+
+
+<!--page loader-->
+<div class="page-loader">
+    <div class="loader"><img src="img/logo.png" alt=""></div>
+</div>
+<!--end page loader-->
+
+
+
+<!--scripts-->
+<script src="vendor/js/jquery-3.2.1.min.js"></script>
+<script src="vendor/js/popper.js"></script>
+<script src="vendor/js/bootstrap.min.js"></script>
+<script src="vendor/js/alertify.js"></script>
+<script src="vendor/js/jquery.knob.min.js"></script>
+<!--[if IE]><script type="text/javascript" src="vendor/js/excanvas.js"></script><![endif]-->
+<script src="vendor/js/summernote-bs4.min.js"></script>
+<script src="vendor/js/dropzone.js"></script>
+<script src="vendor/OwlCarousel2-2.2.1/owl.carousel.min.js"></script>
+<script src="vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="vendor/js/typed.js"></script>
+<script src="js/app.js"></script>
+<!--end scripts-->
+
+<script src="js/map.js"></script>
+<!--
+To use this code on your website, get a free API key from Google.
+Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
+-->
+<script src="http://ditu.google.cn/maps/api/js?key=AIzaSyBt5aXdacpz0IYnuomsPKcoZsh6_TZkJPo&callback=myMap"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //==========注销===========
+        $(".logoutBtn").click(function () {
+            var r = confirm("确定注销本账号吗?");
+            if (r){
+                $.ajax({
+                    url:"/logout",
+                    type:"POST",
+                    dataType:"text",
+                    success:function (content) {
+                        if (content == "success"){
+                            alert("注销成功");
+                            window.location.href="/index";
+                        }
+                    }
+                })
+            }
+        });
+        //===============及时加载出已注册的小区信息=================
+        $.ajax({
+            url:"/getAllVillages",
+            dataType:"json",
+            type:"post",
+            success:function (content) {
+                for (var i =0;i<content.length;i++){
+                    $("#village").append("<option value='"+content[i].villageName+"'>"+content[i].villageName+"</option>");
+                }
+            }
+        });
+
+        //================个人信息的更新==============
+        $("#subBtn").click(function () {
+            var userName = $("#userName").val();
+            var realName = $("#realName").val();
+            var gender = $("#gender").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+            var village = $("#village").val();
+            var address = $("#address").val();
+            if ((userName+realName+gender+phone+email+village+address).length == 0){
+                alert("请至少选择一项更新");
+            } else {
+                $.ajax({
+                    url:"/updateUserInfo",
+                    data:{
+                        "userName":userName,
+                        "realName":realName,
+                        "gender":gender,
+                        "phone":phone,
+                        "email":email,
+                        "village":village,
+                        "address":address
+                    },
+                    dataType:"text",
+                    type:"post",
+                    success:function (content) {
+                        alert(content);
+                        window.location.reload();
+                    }
+                });
+            }
+
+        });
+
+        //======进入购物车=========
+        $(".to_cart").click(function () {
+            window.open("/toMyCart",'购物车', 'height=400, width=800');
+
+        })
+
+
+        
+    })
+
+</script>
+
+</body>
+</html>
+

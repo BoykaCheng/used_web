@@ -1,0 +1,160 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购物车</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/carts.css">
+</head>
+<body>
+    <section class="cartMain">
+        <div class="cartMain_hd">
+            <ul class="order_lists cartTop">
+                <li class="list_chk">
+                    <!--所有商品全选-->
+                    <input type="checkbox" id="all" class="whole_check">
+                    <label for="all"></label>
+                    全选
+                </li>
+                <li class="list_con">商品信息</li>
+                <li class="list_price">单价</li>
+                <li class="list_amount">数量</li>
+                <li class="list_sum">金额</li>
+                <li class="list_op">操作</li>
+            </ul>
+        </div>
+
+        <div class="cartBox">
+            
+            <div class="order_content">
+                <ul class="order_lists" th:each="myCart,myCartStatu : ${myCarts}">
+                    <li class="list_chk">
+                        <input type="checkbox" th:id="${myCart.product.id}" class="son_check" th:attr="from=${myCart.product.userId},cartId=${myCart.cart.id}">
+                        <label th:for="${myCart.product.id}"></label>
+                    </li>
+                    <li class="list_con">
+                        <div class="list_img"><a href="javascript:;"><img th:src="${myCart.product.image}"></a></div>
+                        <div class="list_text">
+                            <a href="javascript:;"><span th:text="${myCart.product.name}"></span></a>
+                            <br>
+                            <span th:text="${tranMap[myCart.cart.transaction]}"></span>
+                        </div>
+                    </li>
+
+                    <li class="list_price">
+                        <p class="price" th:text="'￥'+${myCart.product.price}"></p>
+                    </li>
+                    <li class="list_amount">
+                        <div class="amount_box">
+                            <input type="number" class="sum" th:value="${myCart.cart.quantity}" th:max="${myCart.product.count}" readonly="readonly">
+                        </div>
+                    </li>
+
+                    <li class="list_sum">
+                        <p class="sum_price" th:text="'￥'+${myCart.product.price * myCart.cart.quantity}"></p>
+                    </li>
+                    <li class="list_op">
+                        <p class="del"><a class="delBtn" th:attr="proId = ${myCart.product.id}">移除商品</a></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        
+
+        
+        <!--底部-->
+        <div class="bar-wrapper">
+            <div class="bar-right">
+                <div class="piece">已选商品<strong class="piece_num">0</strong>件</div>
+                <div class="totalMoney">共计: <strong class="total_text">0.00</strong></div>
+                <div class="calBtn"><a href="javascript:;">结算</a></div>
+            </div>
+        </div>
+    </section>
+    <section class="model_bg"></section>
+    <section class="my_model">
+        <p class="title">删除宝贝<span class="closeModel">X</span></p>
+        <p>您确认要删除该宝贝吗？</p>
+        <div class="opBtn"><a id="remove_cart" class="dialog-sure">确定</a><a href="javascript:;" class="dialog-close">关闭</a></div>
+    </section>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/cart.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var proId;
+            $(".delBtn").click(function () {
+                proId = $(this).attr("proId");
+                console.log(proId);
+
+            });
+            //======从购物车删除记录=========
+
+            $("#remove_cart").click(function () {
+                $.ajax({
+                    url:"/removeCart",
+                    type:"POST",
+                    dataType:"text",
+                    data:{
+                        "proId":proId
+                    },
+                    success:function (content) {
+                        if (content == "success"){
+                            alert("移除成功");
+                        }
+                    }
+                })
+            });
+
+            //======结算商品==========
+            $(".calBtn").click(function () {
+                var userId = '[[${session.user.id}]]';
+                var cartList = [];
+                var cartIds = [];
+                $(".son_check").each(function () {
+                    if ($(this).is(':checked')){
+                        var proId = $(this).attr('id');
+                        var from = $(this).attr('from');
+                        var cartId = $(this).attr('cartId');
+                        var quantity = $(this).parent().parent().find('.list_amount').find('.sum').val();
+                        var objDate = {
+                            "userId":userId,
+                            "proId":proId,
+                            "fromUserId":from,
+                            "quantity":quantity
+                        };
+                        cartIds.push(cartId);
+                        cartList.push(objDate);
+                    }
+                });
+                if (cartList.length != 0){
+                    console.log(cartList);
+                    $.ajax({
+                        url:"/addDealRecord",
+                        type:"POST",
+                        dateType:"json",
+                        data:{
+                            "cartList":JSON.stringify(cartList),
+                            "cartIds":JSON.stringify(cartIds)
+                        },
+                        success:function (content) {
+                            if (content == "success"){
+                                alert("交易成功");
+                                window.location.href="/toMyDealPage";
+
+                            }
+
+                        }
+
+                    })
+                }
+
+            })
+
+        })
+    </script>
+</body>
+</html>

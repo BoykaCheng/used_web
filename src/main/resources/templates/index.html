@@ -1,0 +1,555 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<!--meta tags-->
+		<meta charset="UTF-8">
+		<meta name="description" content="Services Listing HTML5 CSS3 template">
+		<meta name="keywords" content="HTML,CSS,XML,JavaScript, services, listing">
+		<meta name="author" content="Ui-DesignLab">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!--end meta tags-->
+
+		<title>主页</title>
+		<!--stylesheets-->
+		<link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+		<link rel="stylesheet" href="vendor/css/animate.min.css">
+		<link rel="stylesheet" href="vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="vendor/perfect-scrollbar/css/perfect-scrollbar.min.css">
+		<link rel="stylesheet" href="css/app.css">
+		<!--end stylesheets-->
+
+		<!--google fonts-->
+		<link href="https://fonts.googleapis.com/css?family=Cairo%7CNosifer%7CPoppins%7CQuicksand:700%7CRaleway%7CTangerine%7CHind+Vadodara" rel="stylesheet">
+		<!--end google fonts-->
+	</head>
+
+	<body>
+
+		<!--侧面导航栏-->
+		<div id="side-nav" class="side-nav">
+			<div class="side-nav-menu perfect-scroll">
+				<div class="text-logo">
+					<a href="index.html">
+						<h3>花生</h3></a>
+				</div>
+				<div class="site-user">
+					<div class="site-user-img" th:if="${session.user == null}">
+						<img src="http://sec-deal-res.oss-cn-chengdu.aliyuncs.com/userImage/avatar/default.jpg" alt="">
+						<span class="offline"></span>
+					</div>
+					<div class="site-user-img" th:if="${session.user != null}">
+						<img th:src="${session.user.avatar}" alt="">
+						<span class="online"></span>
+					</div>
+					<a href="#" th:if="${session.user == null}" class="user-name"><strong>未登录</strong></a>
+					<a href="#" th:if="${session.user != null}" class="user-name"><strong th:text="${session.user.userName}"></strong></a>
+				</div>
+				<ul class="menu" th:if="${session.user != null}">
+					<li>
+						<a href="/index" class="current">主页</a>
+					</li>
+					<li th:if="${session.user != null}">
+
+						<a href="/toCheckProPage" th:if="${session.user.huiY == 2}">管理员入口</a>
+					</li>
+					<li>
+						<a href="#">关于</a>
+					</li>
+				</ul>
+				<div class="logout" th:if="${session.user != null}">
+					<a class="logoutBtn">注销</a>
+				</div>
+				<div th:if="${session.user == null}" class="ui-btn ui-btn-info launch-modal" href="#" data-modal-id="modal-login">
+					<a href="#">登录</a>
+				</div>
+			</div>
+		</div>
+		<!--end 侧面导航栏-->
+
+		<!--banner-->
+		<div class="landing-banner">
+			<nav class="site-top-nav transparent">
+				<div class="logo">
+					<a href="/index">
+						<img src="http://sec-deal-res.oss-cn-chengdu.aliyuncs.com/userImage/avatar/default.jpg" alt="">
+						<strong>花生</strong>
+					</a>
+				</div>
+				<ul class="site-menu">
+					<li>
+						<a href="/index">主页</a>
+					</li>
+					<li th:if="${session.user != null}">
+						<a href="/toAdmin" th:if="${session.user.huiY == 2}">管理员入口</a>
+					</li>
+					<li>
+						<a href="#">关于</a>
+					</li>
+					<li><a th:if="${session.user == null}" class="ui-btn ui-btn-info launch-modal" href="#" data-modal-id="modal-login">登陆</a>
+						<a th:if="${session.user != null}" href="/toPersonalCenter" class="user-name"><strong th:text="${session.user.userName}"></strong></a>
+					</li>
+					<li>
+						<a th:if="${session.user != null}" class="logoutBtn">注销</a>
+					</li>
+				</ul>
+
+				<i class="nav-toggle fa fa-bars"></i>
+			</nav>
+
+			<div class="banner-content">
+				<h1 class="title-style1">欢迎来到 <strong>花生二手交易社区版</strong> </h1>
+				<h2 class="title-style2"><span>你想要的全都有</span></h2>
+				<p>
+					<span>一个处理你的二手物品，找寻你的求购物品的网站</span>
+					<span>操作简单，方便，快捷.</span>
+				</p>
+				<div>
+					<a href="" class="ui-btn ui-btn-info">开始使用</a>
+				</div>
+			</div>
+
+		</div>
+		<!--end banner-->
+
+		<!--服务-->
+		<div class="our-services">
+			<h2>我们的服务</h2>
+			<p>
+				旨在为您提供更方便，更快捷，更简单的二手交易.
+			</p>
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<a href="/toUsedPage" style="text-decoration: none;">
+						<div class="service">
+							<span><i class="fa fa-laptop"></i></span>
+							<strong>二手商城</strong>
+							<p>
+								二手商城主要显示总的商品信息，并且可以通过类别点击进行信息过滤。商品点击之后可以查看详细信息.<br />&nbsp;
+							</p>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<a href="/toNeedPage" style="text-decoration: none;">
+						<div class="service">
+							<span><i class="fa fa-bar-chart-o"></i></span>
+								<strong>求购论坛</strong>
+							<p>
+								卖东西的用户，也可以通过求购论坛查看是否有用户对自己拥有的二手物品有需求，查看详细的需求，有的话可以将自己的商品推送给买家或者联系买家进行交易.
+							</p>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="service">
+						<span><i class="fa fa-users"></i></span>
+						<strong>加入会员</strong>
+						<p>
+							加入会员您能第一时间接受为您推送的您喜欢的商品信息.<br /><br />&nbsp;
+						</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="service to_cart">
+						<span><i class="fa fa-credit-card"></i></span>
+						<strong>快速结算</strong>
+						<p>
+							进入购物车把您的东西带回家.<br /><br /><br />&nbsp; </p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end 服务-->
+
+		<!--开发团队-->
+		<div class="home-about">
+			<div class="about-content">
+				<h3><strong class="ui-text-success">关于我们</strong></h3>
+				<p>
+					开发haha团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍. 开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍. 开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍. 开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍开发团队介绍.
+				</p>
+				<a href="#" class="ui-btn ui-btn-success btn-shadow">更多</a>
+				<div class="follow-us">
+					<span>关注我们:</span>
+					<a href="#"><i class="fa fa-weibo"></i></a>
+					<a href="#"><i class="fa fa-qq"></i></a>
+					<a href="#"><i class="fa fa-weixin"></i></a>
+				</div>
+			</div>
+		</div>
+		<!--end 开发团队-->
+
+		<!--社区入口-->
+		<div class="exp">
+			<h2><span class="ui-text-info">探索</span> 我们的 <strong class="ui-text-info">社区</strong></h2>
+			<p>
+				提供社区最新的其他网站入口.
+			</p>
+		</div>
+		<div class="explore">
+			<div class="exp-item">
+				<div class="exp-item-top">
+					<span><i class="fa fa-user-circle-o"></i><strong>物业办公室</strong></span>
+					<p>
+						小区物业网上在线服务热线
+					</p>
+				</div>
+				<a href="#" class="exp-item-bt"><span>详情</span><i class="fa fa-angle-right"></i></a>
+			</div>
+			<div class="exp-item">
+				<div class="exp-item-top">
+					<span><i class="fa fa-tint"></i><strong>农夫山泉</strong></span>
+					<p>
+						桶装水运送
+					</p>
+				</div>
+				<a href="#" class="exp-item-bt"><span>详情</span><i class="fa fa-angle-right"></i></a>
+			</div>
+			<div class="exp-item">
+				<div class="exp-item-top">
+					<span><i class="fa fa-home"></i><strong>罗森便利店</strong></span>
+					<p>
+						罗森便利店小区分店
+					</p>
+				</div>
+				<a href="#" class="exp-item-bt"><span>详情</span><i class="fa fa-angle-right"></i></a>
+			</div>
+			<div class="exp-item">
+				<div class="exp-item-top">
+					<span><i class="fa fa-align-left"></i><strong>百佳超市</strong></span>
+					<p>
+						百佳超市小区分店
+					</p>
+				</div>
+				<a href="#" class="exp-item-bt"><span>详情</span><i class="fa fa-angle-right"></i></a>
+			</div>
+			<div class="exp-item">
+				<div class="exp-item-top">
+					<span><i class="fa fa-user-o"></i><strong>老干妈洗衣店</strong></span>
+					<p>
+						老干妈洗衣小区分店
+					</p>
+				</div>
+				<a href="#" class="exp-item-bt"><span>详情</span><i class="fa fa-angle-right"></i></a>
+			</div>
+		</div>
+		<!--end 社区入口-->
+
+		<!--榜单-->
+		<div class="exp">
+			<h2><span class="ui-text-info">地球</span> 的 <strong class="ui-text-info">卫士</strong></h2>
+			<p>
+				资源的再次利用就是对地球的保护.
+			</p>
+		</div>
+		<div class="from-blog">
+			<div class="from-blog-c" th:each="dealman,dealmanStatu : ${dealNumMan}">
+				<div class="post">
+					<img th:src="${dealman.user.avatar}" width="300px" height="300px" alt="">
+					<div class="post-content">
+						<a><strong th:if="${dealmanStatu.index == 0}" style="font-size: x-large">状元：<span th:text="${dealman.user.userName}"></span></strong></a>
+						<a><strong th:if="${dealmanStatu.index == 1}" style="font-size: x-large">榜眼：<span th:text="${dealman.user.userName}"></span></strong></a>
+						<a><strong th:if="${dealmanStatu.index == 2}" style="font-size: x-large">探花：<span th:text="${dealman.user.userName}"></span></strong></a>
+						<p style="font-size: large">
+							成功交易笔数：<span th:text="${dealman.dealNum}"></span>
+
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="more-posts">
+			<!--<a href="#">查看榜单 <i class="fa fa-arrow-right"></i></a>-->
+		</div>
+		<!--end 榜单-->
+
+		<!--底部栏-->
+		<div class="start-here">
+			<h3>从这开始</h3>
+			<p>
+				我也是有底线的...
+			</p>
+			<div class="divide" th:if="${session.user == null}">
+				<a href="#" class="ui-btn ui-btn-info launch-modal" data-modal-id="modal-login">登陆</a>
+				<strong class="ui-text-success">或</strong>
+				<a class="ui-btn ui-btn-info launch-modal" href="#" data-modal-id="modal-register">注册</a>
+			</div>
+		</div>
+		<!--end 底部栏-->
+
+
+		
+		<!-- 登陆 -->
+		<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-login-label" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+        					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        				</button>
+						<h3 class="modal-title" id="modal-login-label">登陆</h3>
+					</div>
+					<div class="modal-body">
+
+
+							<div class="form-group">
+								<label class="sr-only" for="username">账号</label>
+								<input type="text" name="username" placeholder="姓名..." class="form-first-name form-control" id="username">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="password">密码</label>
+								<input type="password" name="password" placeholder="密码..." class="form-last-name form-control" id="password">
+							</div>
+							<button class="ui-btn ui-btn-info" id="loginBtn">登陆</button>
+							<span id="showMsg" style="color: red"></span>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end 登陆 -->
+
+		<!-- 注册 -->
+		<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+        					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        				</button>
+						<h3 class="modal-title" id="modal-register-label">注册</h3>
+					</div>
+					<div class="modal-body">
+
+						<form>
+							<div class="form-group">
+								<label class="sr-only" for="reg-username">用户名（必填）</label>
+								<input type="text" placeholder="用户名..." class="form-first-name form-control cjf-need" id="reg-username" required="required">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="reg-avatar">头像</label>
+								<input type="file" placeholder="选择头像..." class="form-first-name form-control cjf-need" id="reg-avatar" onchange="show(this)" required>
+								<img id="img" src="">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="reg-realname">姓名</label>
+								<input type="text" placeholder="姓名..." class="form-first-name form-control" id="reg-realname">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="reg-gender">性别（必填）</label>
+								<select type="text" class="form-email form-control cjf-need" id="reg-gender" required="required">
+									<option value="男" selected>男</option>
+									<option value="女">女</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="reg-password">密码（必填）</label>
+								<input type="password" placeholder="密码..." class="form-last-name form-control cjf-need" id="reg-password" required="required">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="reg-email">邮箱</label>
+								<input type="email" placeholder="邮箱..." class="form-email form-control" id="reg-email">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="reg-tel">电话（必填）</label>
+								<input type="tel" placeholder="电话..." class="form-email form-control cjf-need" id="reg-tel" required="required">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="reg-village">小区名称（必填）</label>
+								<select class="form-control" id="reg-village" required="required">
+									<option selected="selected" value="">选择小区</option>
+								</select>
+								<br>
+								<span>没有您的社区？致电管理员，成为社区代理人吧。tel:18716799494|QQ:782053943</span>
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="reg-address">详细地址（必填）</label>
+								<input type="text" placeholder="详细地址..." class="form-email form-control cjf-need" id="reg-address" required="required">
+							</div>
+							<div class="form-group">
+								<label class="sr-only" for="form-about-yourself">其他信息</label>
+								<textarea placeholder="About yourself..." class="form-about-yourself form-control" id="form-about-yourself"></textarea>
+							</div>
+							<button class="ui-btn ui-btn-info" id="regBtn">注册!</button>
+							<span id="reg-showMsg" style="color: red"></span>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end 注册 -->
+
+
+		<div class="bottom-strip">
+			
+			<div class="copyright"><i class="fa fa-copyright"></i> <span>Copyright &copy; 2018.BoyKaCheng</span></div>
+			
+		</div>
+		<!--end footer section-->
+
+		<!--scripts-->
+		<script src="vendor/js/jquery-3.2.1.min.js"></script>
+		<script src="vendor/js/popper.js"></script>
+		<script src="vendor/js/bootstrap.min.js"></script>
+		<script src="vendor/js/alertify.js"></script>
+		<script src="vendor/js/jquery.knob.min.js"></script>
+		<!--[if IE]><script type="text/javascript" src="vendor/js/excanvas.js"></script><![endif]-->
+		<script src="vendor/js/summernote-bs4.min.js"></script>
+		<script src="vendor/js/dropzone.js"></script>
+		<script src="vendor/OwlCarousel2-2.2.1/owl.carousel.min.js"></script>
+		<script src="vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+		<script src="vendor/js/typed.js"></script>
+		<script src="vendor/js/typed.js"></script>
+		<script src="js/app.js"></script>
+		
+        
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+		<script src="assets/js/scripts.js"></script>
+		<!--end scripts-->
+		<script type="text/javascript">
+
+			//==========及时回显图片=========
+			function show(file) {
+				var reader = new FileReader(); // 实例化一个FileReader对象，用于读取文件
+				var img = document.getElementById('img'); // 获取要显示图片的标签
+
+				//读取File对象的数据
+				reader.onload = function(evt) {
+					img.width = "80";
+					img.height = "80";
+					img.src = evt.target.result;
+				}
+				reader.readAsDataURL(file.files[0]);
+			}
+
+			var loginBtn = $("#loginBtn");
+			var regBtn = $("#regBtn");
+			var msg = "[[${msg}]]";
+
+			if(msg != 'success'){
+				alert(msg);
+			}
+
+			//登录Ajax
+			loginBtn.click(function () {
+				var username = $("#username").val();
+				var password = $("#password").val();
+				if(username.length ===0 || password.length===0){
+					$("#showMsg").text("账号或者密码不能为空");
+				}else{
+					$.ajax({
+						type:"POST",
+						url:"/login",
+						data:{
+							"username":username,
+							"password":password
+						},
+						success:function (content) {
+							if(content == "success"){
+								window.location.href="/index";
+							}else{
+								$("#showMsg").text(content);
+							}
+						}
+					})
+				}
+			});
+
+			//注册Ajax
+			regBtn.click(function () {
+				var formData = new FormData();
+
+				var regUsername = $("#reg-username").val();
+				var regAvatar = $("#reg-avatar")[0].files[0];
+				var regRealname = $("#reg-realname").val();
+				var regEmail = $("#reg-email").val();
+				var regGender = $("#reg-gender").val();
+				var regPassword = $("#reg-password").val();
+				var regTel = $("#reg-tel").val();
+				var regVillage = $("#reg-village").val();
+				var regAddress = $("#reg-address").val();
+				var regRemark = $("#form-about-yourself").text();
+
+				formData.append("userName",regUsername);
+				formData.append("file",regAvatar);
+				formData.append("realName",regRealname);
+				formData.append("email",regEmail);
+				formData.append("gender",regGender);
+				formData.append("password",regPassword);
+				formData.append("phone",regTel);
+				formData.append("village",regVillage);
+				formData.append("address",regAddress);
+				formData.append("remark",regRemark);
+
+				var f = true;
+				$(".cjf-need").each(function () {
+					if($(this).val().length==0){
+						var msg = $(this).prev().text();
+						$("#reg-showMsg").text(msg+"不能为空");
+						f=false;
+						return false;
+					}
+				});
+				if (f){
+					$.ajax({
+						type:"POST",
+						url:"/register",
+						data:formData,
+						processData: false,   // jQuery不要去处理发送的数据
+						contentType: false,   // jQuery不要去设置Content-Type请求头
+						success:function (content) {
+							if(content == "success"){
+								alert("注册成功,请返回登录");
+								window.location.reload();
+							}else{
+								alert(content);
+							}
+						}
+					})
+				}
+
+			});
+			//===============及时加载出已注册的小区信息=================
+			$.ajax({
+				url:"/getAllVillages",
+				dataType:"json",
+				type:"post",
+				success:function (content) {
+					for (var i =0;i<content.length;i++){
+						$("#reg-village").append("<option value='"+content[i].id+"'>"+content[i].villageName+"</option>");
+					}
+
+				}
+			});
+
+			//==========注销===========
+			$(".logoutBtn").click(function () {
+				var r = confirm("确定注销本账号吗?");
+				if (r){
+					$.ajax({
+						url:"/logout",
+						type:"POST",
+						dataType:"text",
+						success:function (content) {
+							if (content == "success"){
+								alert("注销成功");
+								window.location.href="/index";
+							}
+						}
+					})
+				}
+			});
+
+			//======进入购物车=========
+			$(".to_cart").click(function () {
+				window.open("/toMyCart",'购物车', 'height=400, width=800');
+
+			})
+		</script>
+	</body>
+
+
+</html>

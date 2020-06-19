@@ -1,0 +1,347 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index, follow">
+        <title>花生</title>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin" type="text/css" />
+        <!-- Essential styles -->
+        <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome.css" type="text/css">
+
+        <!-- Dlapak styles -->
+        <link id="theme_style" type="text/css" href="/assets/css/style1.css" rel="stylesheet" media="screen">
+
+        <!-- Assets -->
+        <link rel="stylesheet" href="/assets/plugins/owl-carousel/owl.carousel.css">
+        <link rel="stylesheet" href="/assets/plugins/owl-carousel/owl.theme.css">
+
+        <!-- JS Library -->
+        <script src="/assets/js/jquery.js"></script>
+
+    </head>
+    <body>
+        <div class="wrapper">
+            <header class="navbar navbar-default navbar-fixed-top navbar-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="/index" class="navbar-brand"><span class="logo"><i class="fa fa-recycle"></i> 二手商城</span></a>
+                    </div>
+
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="new-ads"><a href="/toNeedPage" class="btn btn-ads btn-block">进入求购论坛</a></li>
+                            
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong>&nbsp;选项</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/toShelfPro">上架商品</a></li>
+                                    <li><a th:href="@{'/getProByExample?userId='+${session.user.id}}">我上架的商品</a></li>
+                                    <li><a href="#">喜欢的商品</a></li>
+                                    <li><a class="to_cart">购物车</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
+                                <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px" th:if="${session.user!=null}">
+                                    <a href="#" class="btn-block text-center" th:text="${session.user.userName}"></a>
+                                    <span>个人积分：</span><span style="font-weight: bolder">50分</span><br>
+                                    <span th:if="${session.user.huiY == 1}">会员中心</span><br>
+                                    <span th:if="${session.user.huiY == 0}">您还不是会员，<a href="#">点击</a>加入</span><br>
+                                    <button type="submit" class="btn btn-custom btn-block"><a href="/toPersonalCenter">个人中心</a></button>
+                                    <button type="button" class="btn btn-custom btn-block logoutBtn">注销</button>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <section class="hero">
+                <div class="container text-center">
+                    <h2 class="hero-title">快速搜索</h2>
+                    <p class="hero-description hidden-xs">快速精准定位您需要的物品(勾选后仅用关键字查询)</p>
+                    <div class="row hero-search-box">
+                        <form action="/getProByExample" method="post">
+                            <div class="col-md-3 col-sm-3 search-input">
+                                        <select class="form-control input-lg search-second" id="board-select" name="boardIid">
+
+                                        </select>
+                            </div>
+                            <div class="col-md-3 col-sm-3 search-input">
+                                        <select class="form-control input-lg search-second" id="topic-select" name="topicId">
+
+                                        </select>
+                            </div>
+                            <div class="col-md-3 col-sm-3 search-input">
+                                <input type="text" class="form-control input-lg search-first" placeholder="关键字查询..." name="keyWord">
+                            </div>
+                            <div class="col-md-1 col-sm-1 search-input">
+
+                                <input type="checkbox" class="form-control checkbox-inline" id="flag" name="flag">
+                            </div>
+                            <div class="col-md-2 col-sm-2 search-input">
+                                <button class="btn btn-custom btn-block btn-lg" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <section class="main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="shortcut">
+                                        <a href="/getProByExample?boardId=1"><i class="fa fa-male shortcut-icon icon-blue"></i></a>
+                                        <a href="/getProByExample?boardId=1"><h3 id="title1"></h3></a>
+                                        <span class="total-items" id="board1_num" style="font-size: 1em;color: black"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="shortcut">
+                                        <a href="/getProByExample?boardId=2"><i class="fa fa-mobile-phone shortcut-icon icon-green"></i></a>
+                                        <a href="/getProByExample?boardId=2"><h3 id="title2"></h3></a>
+                                        <span class="total-items" id="board2_num" style="font-size: 1em;color: black"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="shortcut">
+                                        <a href="/getProByExample?boardId=3"><i class="fa fa-television shortcut-icon icon-brown"></i></a>
+                                        <a href="/getProByExample?boardId=3"><h3 id="title3"></h3></a>
+                                        <span class="total-items" id="board3_num" style="font-size: 1em;color: black"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="shortcut">
+                                        <a href="/getProByExample?boardId=4"><i class="fa fa-cogs shortcut-icon icon-violet"></i></a>
+                                        <a href="/getProByExample?boardId=4"><h3 id="title4"></h3></a>
+                                        <span class="total-items" id="board4_num" style="font-size: 1em;color: black"></span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="section-header">
+                                        <h2>热门查看</h2>
+                                    </div>
+                                    <div id="featured-products" class="owl-carousel owl-carousel-featured">
+
+                                        <div class="item" th:each="hotPro,hotProStatu : ${hotPros}">
+                                            <div class="item-ads-grid">
+                                                <div class="item-badge-grid featured-ads">
+                                                    <a href="#" th:text="${hotPro.pro.level}+'成新'"></a>
+                                                </div>
+                                                <div class="item-img-grid">
+                                                    <img alt="" th:src="${hotPro.pro.image}" class="img-responsive img-center">
+                                                </div>
+                                                <div class="item-title">
+                                                    <a th:href="@{'/detailPro/'+${hotPro.pro.id}}"><h4 th:text="${hotPro.pro.name}"></h4></a>
+                                                </div>
+                                                <div class="item-meta">
+                                                    <ul>
+                                                        <li class="item-date"><i class="fa fa-clock-o"></i> <span th:text="'上架时间：'+${#dates.format(hotPro.pro.shelf,'yyyy-MM-dd HH:mm:ss')}+'|'"></span></li>
+                                                        <li class="item-cat hidden-xs"><i class="fa fa-bars"></i> <a href="#" th:text="${map[hotPro.pro.topicId]}"></a> , <a href="#" th:text="'数量：'+${hotPro.pro.count}+'|'"></a></li>
+                                                        <li class="item-location hidden-xs">
+                                                            <a href="#">
+                                                                <i class="fa fa-map-marker"></i>
+                                                                <span th:text="${tranMap[hotPro.pro.transaction]}+'|'"></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-eye"></i>
+                                                            <span th:text="${hotPro.watchCounts}"></span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product-footer">
+                                                    <div class="item-price-grid pull-left">
+                                                        <h3 th:text="'￥：'+${hotPro.pro.price}"></h3>
+                                                        <span>
+                                                            <p th:text="'查看次数：'+${hotPro.watchCounts}"></p>
+                                                        </span>
+                                                    </div>
+                                                    <div class="item-action-grid pull-right">
+                                                        <ul>
+                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="加入喜欢" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
+                                                            <li><a th:href="@{'/toCartChooseNum/'+${hotPro.pro.id}}" data-toggle="tooltip" data-placement="top" title="加入购物车" class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+            <div class="counter">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="item-counter">
+                                <span class="item-icon"><i class="fa fa-database"></i></span>
+                                <div data-refresh-interval="100" data-speed="3000" th:attr="data-to=${productNums}" data-from="0" class="item-count"  th:text="${productNums}">78</div>
+                                <span class="item-info">商品数量</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="item-counter">
+                                <span class="item-icon"><i class="fa fa-user-plus"></i></span>
+                                <div data-refresh-interval="50" data-speed="5000" th:attr="data-to=${memberNums}" data-from="0" class="item-count" th:text="${memberNums}"></div>
+                                <span class="item-info">会员数量</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="item-counter">
+                                <span class="item-icon"><i class="fa fa-users"></i></span>
+                                <div data-refresh-interval="80" data-speed="5000" th:attr="data-to=${userNums}" data-from="0" class="item-count" th:text="${userNums}"></div>
+                                <span class="item-info">用户数量</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="item-counter">
+                                <span class="item-icon"><i class="fa fa-check"></i></span>
+                                <div data-refresh-interval="80" data-speed="5000" th:attr="data-to=${dealNums}" data-from="0" class="item-count" th:text="${dealNums}">63</div>
+                                <span class="item-info">成交数量</span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div> <!-- / .counter -->
+    </div>
+    <div class="footer">
+        <div class="container">
+        <ul class="pull-left footer-menu">
+            <li>
+                <a href="#"> Home </a>
+                <a href="#"> About us </a>
+                <a href="#"> Contact us </a>
+            </li>
+        </ul>
+        <ul class="pull-right footer-menu">
+            <li>Copyright &copy; 2018.BoyKaCheng</li>
+        </ul>
+        </div>
+    </div>
+</div>
+<!-- Essentials -->
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/plugins/owl-carousel/owl.carousel.js"></script>
+<script src="assets/plugins/counter/jquery.countTo.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //==========注销===========
+        $(".logoutBtn").click(function () {
+            var r = confirm("确定注销本账号吗?");
+            if (r){
+                $.ajax({
+                    url:"/logout",
+                    type:"POST",
+                    dataType:"text",
+                    success:function (content) {
+                        if (content == "success"){
+                            alert("注销成功");
+                            window.location.href="/index";
+                        }
+                    }
+                })
+            }
+        });
+
+        // ==================将板块类别加载出来====================
+        var boardSelect = $("#board-select");
+        $.ajax({
+            url:"/getAllBoard",
+            type:"GET",
+            dataType:"json",
+            success:function (content) {
+                for (var i = 0;i<content.length;i++){
+                    boardSelect.append("<option value='"+content[i].id+"'> "+content[i].boardName+"</option>");
+                    //将对应板块的子类别数像是出来
+                    $("#title"+(i+1)).text(content[i].boardName);
+                    $("#board"+(i+1)+"_num").text(content[i].topicNum);
+                }
+            }
+        });
+
+        //==================通过点击具体板块异步加载子选项====================
+        boardSelect.change(function () {
+            var boardId = boardSelect.val();
+            var $topic = $("#topic-select");
+            $.ajax({
+                url:"/getTopicByBoardId",
+                data:{
+                    "boardId":boardId
+                },
+                dataType:"json",
+                success:function (content) {
+                    $topic.empty();
+                    for (var i =0; i<content.length;i++){
+                        $topic.append("<option value='"+content[i].id+"'> "+content[i].topicName+"</option>");
+                    }
+                }
+            })
+        });
+        //==================是否只通过关键字查询====================
+        $("#flag").change(function () {
+            if($(this).is(":checked")){
+                $("#topic-select").attr("disabled","disabled");
+                $("#flag").val(true);
+            }else{
+                $("#topic-select").removeAttr("disabled");
+                $("#flag").val(false);
+            }
+            console.log($("#topic-select").val());
+            console.log($("#flag").val());
+        });
+
+
+        // ===========Featured Owl Carousel============
+        if ($(".owl-carousel-featured").length > 0) {
+            $(".owl-carousel-featured").owlCarousel({
+                items: 3,
+                lazyLoad: true,
+                pagination: true,
+                autoPlay: 5000,
+                stopOnHover: true
+            });
+        }
+
+        // ==================计数====================
+        $('.item-count').countTo({
+            formatter: function (value, options) {
+                return value.toFixed(options.decimals);
+            },
+            onUpdate: function (value) {
+                console.debug(this);
+            },
+            onComplete: function (value) {
+                console.debug(this);
+            }
+        });
+        //======进入购物车=========
+        $(".to_cart").click(function () {
+            window.open("/toMyCart",'购物车', 'height=400, width=800');
+
+        })
+
+
+    });
+</script>
+</body>
+</html> 

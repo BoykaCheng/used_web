@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+		<title>上传商品</title>
+		<!-- Bootstrap Core CSS -->
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Menu CSS -->
+		<link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="css/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="white-box">
+						<h3 class="text-center">
+							添加图片
+						</h3>
+						<form class="form-horizontal form-material" id="imageForm" action="/addEmage" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+								<label class="col-md-12">商品名称</label>
+								<div class="col-md-12">
+									<input type="text" placeholder="商品名称" class="form-control form-control-line" th:value="${pro.name}" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group">
+
+								<div class="col-md-12">
+									<input type="text" class="form-control form-control-line" th:value="${pro.id}" style="display: none" name="proId">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-12">图片1</label>
+								<div class="col-md-12">
+									<input type="file" class="form-control form-control-file" onchange="show(1,this)" name="image_f" multiple>
+								</div>
+								<img id="img1" src="">
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">图片2</label>
+								<div class="col-md-12">
+									<input type="file" class="form-control form-control-file" onchange="show(2,this)" name="image_f" multiple>
+								</div>
+								<img id="img2" src="">
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">图片3</label>
+								<div class="col-md-12">
+									<input type="file" class="form-control form-control-file" onchange="show(3,this)" name="image_f" multiple>
+								</div>
+								<img id="img3" src="">
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">图片4</label>
+								<div class="col-md-12">
+									<input type="file" class="form-control form-control-file" onchange="show(4,this)" name="image_f" multiple>
+								</div>
+								<img id="img4" src="">
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input type="button" class="btn btn-success" id="confirmBtn" value="确认添加" />
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- /#wrapper -->
+		<!-- jQuery -->
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Menu Plugin JavaScript -->
+		<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+		<!--Nice scroll JavaScript -->
+		<script src="js/jquery.nicescroll.js"></script>
+		<!--Wave Effects -->
+		<script src="js/waves.js"></script>
+		<!-- Custom Theme JavaScript -->
+		<script src="js/myadmin.js"></script>
+
+		<script type="text/javascript">
+
+			//==========及时回显图片=========
+			function show(i,file) {
+				var reader = new FileReader(); // 实例化一个FileReader对象，用于读取文件
+				var img = document.getElementById('img'+i+''); // 获取要显示图片的标签
+
+				//读取File对象的数据
+				reader.onload = function(evt) {
+					img.width = "160";
+					img.height = "160";
+					img.src = evt.target.result;
+				}
+				reader.readAsDataURL(file.files[0]);
+			}
+
+			$(document).ready(function () {
+				//==========上传图片=========
+				$("#confirmBtn").click(function () {
+					var v="";
+					$(".form-control-file").each(function () {
+						v +=$(this).val();
+					});
+					console.log(v);
+					if (v== ""){
+						alert("请选择至少一张图片");
+						return;
+					}else {
+						var r = confirm("确定上传图片？");
+						if (r){
+							$("#imageForm").submit();
+						}
+					}
+
+
+				})
+
+
+
+
+
+
+
+
+			})
+
+
+
+		</script>
+	</body>
+
+</html>

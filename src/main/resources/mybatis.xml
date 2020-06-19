@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <configuration>
+  	<settings>
+		<!--MyBatis中对于延迟加载设置，只对于resultMap中的collection和association起作用，
+		可以应用到一对一、一对多、多对一、多对多的所有关联关系查询中-->
+	     <!-- 启用延迟加载特性，不配置默认关闭该特性-->
+	     <setting name="lazyLoadingEnabled" value="true"></setting>
+
+		 <!--3.4.1版本之前默认是true，之后默认是false-->
+		 <!--true:开启侵入式延迟. false:开启深度延迟加载-->
+	     <setting name="aggressiveLazyLoading" value="false"/>
+
+	     <!--是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。  -->
+	     <setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- 打印查询语句 -->
+		<!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+    </settings>
+  </configuration>

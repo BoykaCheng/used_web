@@ -1,0 +1,74 @@
+server:
+  port: 8080
+#  servlet:
+#    context-path: /cjf
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/used_web?useUnicode=true&characterEncoding=utf8&useSSL=true&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 5
+      min-idle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,wall,slf4j
+      connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        url-pattern: "/druid/*"
+        allow: 127.0.0.1,192.168.163.1
+        deny: 192.168.1.73
+        reset-enable: false
+        login-username: admin
+        login-password: 123456
+  thymeleaf:
+    cache: false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 3000
+    password: password
+    database: 0
+
+mybatis:
+  type-aliases-package: com.cque.usedweb.entity
+  config-location: classpath:mybatis.xml
+  mapper-locations: classpath:com/cque/usedweb/mapper/*.xml
+
+pagehelper:
+  # 指定数据库，不指定的话会默认自动检测数据库类型
+  helper-dialect: mysql
+  # 是否启用分页合理化。
+  # 如果启用，当pagenum<1时，会自动查询第一页的数据，当pagenum>pages时，自动查询最后一页数据；
+  # 不启用的，以上两种情况都会返回空数据
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+userImage:
+  endpoint: oss-cn-chengdu.aliyuncs.com
+  keyid: LTAI4GFa1fQqWyCZ7BJ6RJ1L
+  keysecret: fwxFlcNIrDYaqw6jV2A5zgTqGkHrKF
+  bucketname: sec-deal-res
+  filehost: userImage
+  default-avatar: http://sec-deal-res.oss-cn-chengdu.aliyuncs.com/userImage/avatar/default.jpg
+  protocol: http://
+  no-pro-avatar: http://sec-deal-res.oss-cn-chengdu.aliyuncs.com/userImage/404pro.jpg

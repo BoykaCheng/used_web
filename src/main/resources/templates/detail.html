@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="robots" content="index, follow">
+		<title>Dlapak</title>
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin" type="text/css" />
+		<!-- Essential styles -->
+		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" type="text/css">
+		<link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome.css" type="text/css">
+
+		<!-- Dlapak styles -->
+		<link id="theme_style" type="text/css" href="/assets/css/style1.css" rel="stylesheet" media="screen">
+
+		<!-- Assets -->
+		<link rel="stylesheet" href="/assets/plugins/owl-carousel/owl.carousel.css">
+		<link rel="stylesheet" href="/assets/plugins/owl-carousel/owl.theme.css">
+		<link rel="stylesheet" href="/assets/plugins/flexslider/flexslider.css" type="text/css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="/assets/css/default.css" />
+		<link rel="stylesheet" type="text/css" href="/assets/css/component.css" />
+
+		<!-- JS Library -->
+		<script src="/assets/js/jquery.js"></script>
+		<script src="/assets/js/modernizr.custom.js"></script>
+
+	</head>
+
+	<body>
+		<div class="wrapper">
+			<header class="navbar navbar-default navbar-fixed-top navbar-top">
+				<div class="container">
+					<div class="navbar-header">
+						<button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+						<a href="/index" class="navbar-brand"><span class="logo"><i class="fa fa-recycle"></i> 二手商城</span></a>
+					</div>
+
+					<div class="navbar-collapse collapse">
+						<ul class="nav navbar-nav navbar-right">
+							<li class="new-ads">
+								<a href="/toNeedPage" class="btn btn-ads btn-block">进入求购论坛</a>
+							</li>
+
+							<li class="dropdown">
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong>&nbsp;选项</a>
+								<ul class="dropdown-menu">
+									<li><a href="/toShelfPro">上架商品</a></li>
+									<li><a href="#">我发布的商品</a></li>
+									<li><a href="#">喜欢的商品</a></li>
+									<li><a class="to_cart">购物车</a></li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
+								<div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
+									<span>个人积分：</span><span style="font-weight: bolder">50分</span><br>
+									<span th:if="${session.user.huiY == 1}">会员中心</span><br>
+									<span th:if="${session.user.huiY == 0}">您还不是会员，<a href="#">&nbsp;&nbsp;点击&nbsp;&nbsp;</a>加入</span><br>
+									<button type="submit" class="btn btn-custom btn-block"><a href="/toPersonalCenter">个人中心</a></button>
+									<button type="button" class="btn btn-custom btn-block logoutBtn">注销</button>
+								</div>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</header>
+			<section class="main">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<ul class="breadcrumb pull-left">
+								<li><a href="/index">主页</a></li>
+								<li><a href="/toUsedPage">板块</a></li>
+								<li>商品详情</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-8 col-sm-8">
+							<div class="row">
+								<div class="col-md-12">
+
+									<div class="post">
+										<div class="post-price">
+											<span th:text="'￥：'+${pro.price}"></span>
+										</div>
+										<div class="post-title">
+											<h2 th:text="${pro.name}"></h2>
+										</div>
+										<div class="post-meta">
+											<ul>
+												<li><i class="fa fa-clock-o"></i> <span th:text="'上架时间：'+${#dates.format(pro.shelf,'yyyy-MM-dd HH:mm:ss')}+'|'"></span></li>
+												<li class="item-cat hidden-xs"><i class="fa fa-bars"></i> <a href="#" th:text="${map[pro.topicId]}"></a> , <a href="#" th:text="'数量：'+${pro.count}+'|'"></a></li>
+												<li class="item-location hidden-xs">
+													<a href="#">
+														<i class="fa fa-map-marker"></i>
+														<span th:text="${tranMap[pro.transaction]}+'|'"></span>
+													</a>
+												</li>
+												<li>
+													<i class="fa fa-eye"></i>
+													<span th:text="${watchCount}"></span>
+												</li>
+											</ul>
+										</div>
+										<div class="flexslider post-images">
+											<ul th:class="slides">
+												<li th:each="img,umgStatu : ${imgs}" th:attr="data-thumb=${img.path}">
+													<img alt="" th:src="${img.path}" />
+												</li>
+											</ul>
+										</div>
+										<div class="post-body">
+											<h4><strong>描述</strong></h4>
+											<p th:text="${pro.remark}">
+											</p>
+
+										</div>
+
+										<div class="main1">
+											<div id="cbp-qtrotator" class="cbp-qtrotator">
+												<div class="cbp-qtcontent" th:each="msg,msgState : ${msgs}">
+													<blockquote th:if="${msgs.size() != 0}">
+														<p th:text="${msg.content}"></p>
+														<footer th:text="${users[msg.userId]}"></footer>
+													</blockquote>
+													<blockquote th:unless="${msgs.size() != 0}">
+														<p>该商品暂无评论！</p>
+													</blockquote>
+												</div>
+
+											</div>
+										</div>
+										<div class="widget">
+											<div class="widget-header">
+												<h3>评论商品</h3>
+											</div>
+											<div class="widget-body">
+												<form>
+													<textarea style="width: 100%;" id="content"></textarea>
+													<input type="button" value="提交" id="subMsg"/>
+													<input type="checkbox" id="msgDisplay">
+													<span style="color: #5BC0DE">（仅卖家与自己可见）</span>
+												</form>
+												<span id="showWordNum">还能输入200个字</span>
+
+											</div>
+										</div>
+										<div class="post-footer">
+											<div class="row">
+												<div class="col-xs-6">
+													<button class="btn btn-info"><i class="fa fa-heart"></i> <span class="hidden-xs hidden-sm">加入收藏</span></button>
+													<button class="btn btn-info"><a th:href="@{'/toCartChooseNum/'+${pro.id}}"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm"></span></a></button>
+
+												</div>
+												<div class="col-xs-6">
+													<div class="item-action pull-right">
+														<ul>
+															<li>
+																<a href="#" class="btn btn-success btn"><i class="fa fa-share"></i></a>
+															</li>
+															<button class="btn btn-warning" data-target="#sendMessageModal1" data-toggle="modal"><i class="fa fa-envelope"></i> <span class="hidden-xs hidden-sm">举报该商品</span></button>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-4" style="position: relative;">
+							<div class="widget">
+								<div class="widget-header">
+									<h3>卖家信息</h3>
+								</div>
+								<div class="widget-body text-center">
+									<img alt="avatar" th:src="${person.avatar}" class="seller-avatar img-responsive">
+									<h2 class="seller-name" th:text="${person.userName}"></h2>
+									<p class="seller-detail">
+										社区: <strong th:text="${person.village}"></strong><br/>
+										住址: <strong th:text="${person.address}"></strong><br/>
+										入驻时间 : <strong th:text="${person.createTime}"></strong><br />
+										信用情况: <strong>好</strong><br/>
+										交易成功 : <strong>6笔</strong>
+									</p>
+								</div>
+								<div class="widget-footer">
+									<div class="row">
+										<div class="col-sm-6">
+											<button class="btn btn-info btn-block"><i class="fa fa-envelope"></i> <span th:text="${person.email}"></span></button>
+										</div>
+										<div class="col-sm-6">
+											<button class="btn btn-warning btn-block" data-target="#sendMessageModal" data-toggle="modal"><i class="fa fa-envelope"></i> 给他留言</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="widget">
+								<div class="widget-header">
+									<h3>用户最新上架商品</h3>
+								</div>
+								<div class="widget-body">
+
+									<div class="item-ads-grid">
+
+										<div class="item-img-grid">
+											<img alt="" th:src="${newShelfPro.image}" class="img-responsive img-center">
+										</div>
+										<div class="item-title">
+											<a th:href="@{'/detailPro/'+${newShelfPro.id}}">
+												<h4 th:text="${newShelfPro.name}"></h4></a>
+										</div>
+										<div class="item-meta">
+											<ul>
+												<li class="item-date"><i class="fa fa-clock-o"></i> <span th:text="'上架时间：'+${#dates.format(newShelfPro.shelf,'yyyy-MM-dd HH:mm:ss')}+'|'"></span></li>
+												<li class="item-cat hidden-xs"><i class="fa fa-bars"></i> <a href="#" th:text="${map[newShelfPro.topicId]}"></a> , <a href="#" th:text="'数量：'+${newShelfPro.count}+'|'"></a></li>
+												<li class="item-location hidden-xs">
+													<a href="#">
+														<i class="fa fa-map-marker"></i>
+														<span th:text="${tranMap[newShelfPro.transaction]}+'|'"></span>
+													</a>
+												</li>
+												<li>
+													<i class="fa fa-eye"></i>
+													<span th:text="${watchCount}"></span>
+												</li>
+											</ul>
+										</div>
+										<div class="product-footer">
+											<div class="item-price-grid pull-left">
+												<h3 th:text="'￥：'+${newShelfPro.price}"></h3>
+												<span>
+													<p th:text="'查看次数：'+${watchCount}"></p>
+												</span>
+											</div>
+											<div class="item-action-grid pull-right">
+												<ul>
+													<li><a href="#" data-toggle="tooltip" data-placement="top" title="加入喜欢" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
+													<li><a th:href="@{'/toCartChooseNum/'+${newShelfPro.id}}" data-toggle="tooltip" data-placement="top" title="加入购物车" class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i></a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<!-- 买家留言 -->
+		<div aria-labelledby="sendMessageModalLabel" role="dialog" tabindex="-1" id="sendMessageModal" class="modal fade in">
+			<div role="document" class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+						<h4 id="sendMessageModalLabel" class="modal-title">给卖家留言</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							
+							<div class="form-group">
+								<label class="control-label" for="content1">告诉卖家您的想法:</label>
+								<textarea id="content1" class="form-control input-lg" required="required" ></textarea>
+							</div>
+						</form>
+						<span id="showWordNum1">还能输入200个字</span>
+					</div>
+					<div class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+						<button class="btn btn-custom" type="button" id="subMsg1"><i class="fa fa-paper-plane"></i> 发送</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End 买家留言 -->
+		
+		<!-- 举报商品 -->
+		<div aria-labelledby="sendMessageModalLabel1" role="dialog" tabindex="-1" id="sendMessageModal1" class="modal fade in">
+			<div role="document" class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+						<h4 id="sendMessageModalLabel1" class="modal-title">商品举报</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							
+							<div class="form-group">
+								<label class="control-label" for="message-text">举报原因:</label>
+								<textarea id="message-text" class="form-control input-lg" placeholder="指出商品不合规的地方..." required></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+						<button class="btn btn-custom" type="button"><i class="fa fa-paper-plane"></i> 发送</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End 举报商品 -->
+
+		<!-- Essentials -->
+		<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/assets/plugins/owl-carousel/owl.carousel.js"></script>
+		<script src="/assets/plugins/counter/jquery.countTo.js"></script>
+		<script defer src="/assets/plugins/flexslider/jquery.flexslider.js"></script>
+		<script src="/assets/js/jquery.min.js"></script>
+		<script src="/assets/js/jquery.cbpQTRotator.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				// ===============Flexslider=====================
+				$('.flexslider').flexslider({
+					animation: "slide",
+					controlNav: "thumbnails",
+					directionNav: false,
+					start: function(slider) {
+						$('body').removeClass('loading');
+					}
+				});
+				$('#cbp-qtrotator').cbpQTRotator();
+
+
+				//==========注销===========
+				$(".logoutBtn").click(function () {
+					var r = confirm("确定注销本账号吗?");
+					if (r){
+						$.ajax({
+							url:"/logout",
+							type:"POST",
+							dataType:"text",
+							success:function (content) {
+								if (content == "success"){
+									alert("注销成功");
+									window.location.href="/index";
+								}
+							}
+						})
+					}
+				});
+
+				// ===============用户评价商品=====================
+				//=======检查字数========
+				$("#content").keyup(function () {
+					var wordNum = $(this).val().length;//获取输入字数
+					if (wordNum > 200) {//如果大于200
+						var char = $(this).val();
+						char = char.substr(0, 200);//截取字符串（前200）
+						$(this).val(char);
+						wordNum = 200;
+					}
+					$("#showWordNum").text('还能输入'+(200-wordNum)+'个字');
+				});
+				//======发送评价===========
+				$("#subMsg").click(function () {
+					var proId = [[${pro.id}]];
+					var content = $("#content").val();
+					if($("#msgDisplay").is(":checked")){
+						$("#msgDisplay").val(true);
+					}else{
+						$("#msgDisplay").val(false);
+					}
+					var flag = $("#msgDisplay").val();
+					$.ajax({
+						url:"/productMsg",
+						data:{
+							"proId":proId,
+							"content":content,
+							"flag":flag
+						},
+						dataType:"text",
+						type:"post",
+						success:function (cont) {
+							$("#content").val("");
+							alert(cont);
+							window.location.reload();
+						}
+					})
+				});
+
+				// ===============用户给卖家留言=====================
+				// ========检查字数===========
+				$("#content1").keyup(function () {
+					var wordNum = $(this).val().length;//获取输入字数
+					if (wordNum > 200) {//如果大于200
+						var char = $(this).val();
+						char = char.substr(0, 200);//截取字符串（前200）
+						$(this).val(char);
+						wordNum = 200;
+					}
+					$("#showWordNum1").text('还能输入'+(200-wordNum)+'个字');
+				});
+				//======发送留言===========
+				$("#subMsg1").click(function () {
+					var userId = [[${pro.userId}]];
+					var content = $("#content1").val();
+					var formUserId = [[${session.user.id}]];
+					$.ajax({
+						url:"/userMsg",
+						data:{
+							"fromUser":formUserId,
+							"toUser":userId,
+							"content":content
+						},
+						dataType:"text",
+						type:"post",
+						success:function (cont) {
+							$("#content1").val("");
+							alert(cont);
+							window.location.reload();
+						}
+					})
+				});
+
+				//======进入购物车=========
+				$(".to_cart").click(function () {
+					window.open("/toMyCart",'购物车', 'height=400, width=800');
+
+				})
+			});
+		</script>
+	</body>
+
+</html>

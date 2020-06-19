@@ -1,0 +1,120 @@
+/*Small Desktop*/
+@media(min-width:1024px) {
+	 .app-search .form-control:focus{
+		 width: 300px;
+		}
+
+}
+
+/*Ipad*/
+@media(min-width:768px) {
+    #page-wrapper {
+        position: relative;
+        margin: 0px 0 0 220px;
+        transition:0.5s ease-out;
+       top:50px;
+    }
+    .navbar-default{ 
+        position:fixed; 
+        width:100%; 
+        top:0px;
+    }
+    .sidebar {
+        z-index: 1;
+       	position: fixed;
+        width: 220px;
+        top:50px;
+        height:95%;
+        transform: translate3d(0, 0, 0);
+ 		transition: all 0.6s ease-out;
+    }
+   
+    .content-wrapper { 
+    	#page-wrapper {
+    		margin-left:0px;
+    		 width:100%;
+		}
+    	.sidebar{
+    		transform: translate3d(-100%, 0, 0);
+    		
+		}
+		.top-left-part{
+			width:60px;
+			transition:0.5s ease-out;
+		}
+    }
+    .navbar-top-links .dropdown-messages,
+    .navbar-top-links .dropdown-tasks,
+    .navbar-top-links .dropdown-alerts {
+        margin-left: auto;
+    }
+
+
+}
+@media(max-width:1024px) {
+ .b-r-none{ border-right:0px;}
+}
+/*Phone*/
+@media(max-width:767px) {
+	.navbar-top-links {
+		display:inline-block;
+	.profile-pic img{
+		margin-right:0px;
+		}
+	}
+	.top-left-part{ width:60px;}
+	.navbar-top-links li:last-child{ margin-right:0px;}
+	.navbar-top-links .dropdown-messages, .navbar-top-links .dropdown-tasks, .navbar-top-links .dropdown-alerts{
+		width:260px;
+
+	}
+    .col-in{ border-right:0px; border-bottom:1px solid @border;}
+
+    /*Timeline*/
+     ul.timeline:before {
+        left: 40px;
+    }
+
+    ul.timeline > li > .timeline-panel {
+        width: calc(100% - 90px);
+        width: -moz-calc(100% - 90px);
+        width: -webkit-calc(100% - 90px);
+    }
+
+    ul.timeline > li > .timeline-badge {
+        top: 16px;
+        left: 15px;
+        margin-left: 0;
+    }
+
+    ul.timeline > li > .timeline-panel {
+        float: right;
+    }
+
+    ul.timeline > li > .timeline-panel:before {
+        right: auto;
+        left: -15px;
+        border-right-width: 15px;
+        border-left-width: 0;
+    }
+
+    ul.timeline > li > .timeline-panel:after {
+        right: auto;
+        left: -14px;
+        border-right-width: 14px;
+        border-left-width: 0;
+    }
+.login-box{
+    max-width:420px; 
+    width:100%;
+}
+
+}
+@media(max-width:480px) {
+.vtabs{
+.tabs-vertical{
+      width:auto;
+      }
+}
+
+}

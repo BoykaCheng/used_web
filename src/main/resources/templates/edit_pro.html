@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+		<title>编辑商品</title>
+		<!-- Bootstrap Core CSS -->
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Menu CSS -->
+		<link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="css/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="white-box">
+						<h3 class="text-center">
+							编辑商品
+						</h3>
+						<form class="form-horizontal form-material" action="/changePro" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+								<label class="col-md-12">商品名称</label>
+								<div class="col-md-12">
+									<input type="number" th:value="${pro.id}" name="id" style="display: none">
+									<input type="text" placeholder="商品名称" class="form-control form-control-line" name="name" th:value="${pro.name}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">商品成色</label>
+								<div class="col-md-12">
+									<input type="number" placeholder="商品成色" class="form-control form-control-line" min="1" max="10" name="level" th:value="${pro.level}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">价格</label>
+								<div class="col-md-12">
+									<input type="number" class="form-control form-control-line" name="price" th:value="${pro.price}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">数量</label>
+								<div class="col-md-12">
+									<input type="number" class="form-control form-control-line" name="count" th:value="${pro.count}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">所属板块</label>
+								<div class="col-md-12">
+									<select class="form-control form-control-line" id="select_board" name="boardId">
+
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">所属类别</label>
+								<div class="col-md-12">
+									<select class="form-control form-control-line" id="select_topic" name="topicId">
+										<option>请先选择板块</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">交易方式</label>
+								<div class="col-md-12">
+									<select class="form-control form-control-line" id="select_tran_way" name="transaction">
+
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">商品图片</label>
+								<div class="col-md-12">
+									<img th:src="${pro.image}" width="200px" height="200px">
+									<input type="file" class="form-control form-control-line" onchange="show(this)" name="image_f">
+								</div>
+								<img id="img" src="">
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">描述</label>
+								<div class="col-md-12">
+									<textarea rows="5" class="form-control form-control-line" name="remark" th:text="${pro.remark}"></textarea>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-12">
+									<button class="btn btn-success" type="submit">更新商品</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- /#wrapper -->
+		<!-- jQuery -->
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Menu Plugin JavaScript -->
+		<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+		<!--Nice scroll JavaScript -->
+		<script src="js/jquery.nicescroll.js"></script>
+		<!--Wave Effects -->
+		<script src="js/waves.js"></script>
+		<!-- Custom Theme JavaScript -->
+		<script src="js/myadmin.js"></script>
+
+		<script type="text/javascript">
+
+			//==========及时回显图片=========
+			function show(file) {
+				var reader = new FileReader(); // 实例化一个FileReader对象，用于读取文件
+				var img = document.getElementById('img'); // 获取要显示图片的标签
+
+				//读取File对象的数据
+				reader.onload = function(evt) {
+					img.width = "80";
+					img.height = "80";
+					img.src = evt.target.result;
+				}
+				reader.readAsDataURL(file.files[0]);
+			}
+
+
+			$(document).ready(function () {
+				//=========加载全部交易方式=========
+				var $tran_way = $("#select_tran_way");
+				var trid = "[[${pro.transaction}]]";
+				$.ajax({
+					url:"/findAllTrans",
+					type:"POST",
+					dataType:"json",
+					success:function (content) {
+						$tran_way.empty();
+						for (var i =0;i<content.length;i++){
+							if (trid == content[i].num) {
+								$tran_way.append("<option value='"+content[i].num+"' selected='selected'>"+content[i].tranWay+"</option>");
+							}else {
+								$tran_way.append("<option value='"+content[i].num+"'>"+content[i].tranWay+"</option>");
+							}
+						}
+					}
+				});
+
+				//========加载所有的板块类别=========
+				var $sel_board = $("#select_board");
+				var $sel_topic = $("#select_topic");
+				var bId = "[[${boardId}]]";
+				var tid = "[[${pro.topicId}]]";
+
+				$.ajax({
+					url:"/getAllBoard",
+					dataType:"json",
+					type:"GET",
+					success:function (content) {
+						$sel_board.empty();
+						for (var i =0;i<content.length;i++){
+							if (bId == content[i].id){
+								$sel_board.append("<option value='"+content[i].id+"' selected='selected'>"+content[i].boardName+"</option>");
+							}else{
+								$sel_board.append("<option value='"+content[i].id+"'>"+content[i].boardName+"</option>");
+							}
+						}
+					}
+				});
+
+				$.ajax({
+					url:"/getTopicByBoardId",
+					dataType:"json",
+					type:"GET",
+					data:{
+						"boardId":bId
+					},
+					success:function (content) {
+						$sel_topic.empty();
+						for (var i =0;i<content.length;i++){
+							if (tid == content[i].id) {
+								$sel_topic.append("<option value='"+content[i].id+"' selected='selected'>"+content[i].topicName+"</option>");
+							}else {
+								$sel_topic.append("<option value='"+content[i].id+"'>"+content[i].topicName+"</option>");
+							}
+						}
+					}
+				})
+
+				//======点击板块，类别改变=========
+				$sel_board.change(function () {
+					var boardId = $(this).val();
+					$.ajax({
+						url:"/getTopicByBoardId",
+						dataType:"json",
+						type:"GET",
+						data:{
+							"boardId":boardId
+						},
+						success:function (content) {
+							$sel_topic.empty();
+							for (var i =0;i<content.length;i++){
+								$sel_topic.append("<option value='"+content[i].id+"'>"+content[i].topicName+"</option>");
+							}
+						}
+					})
+				});
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+		<title>上传商品</title>
+		<!-- Bootstrap Core CSS -->
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Menu CSS -->
+		<link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="css/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="white-box">
+						<h3 class="text-center">
+							用户注册
+						</h3>
+						<form class="form-horizontal form-material" action="/register" method="post" enctype="multipart/form-data">
+							<span>(注：星号标记为必填)</span>
+							<div class="form-group">
+								<label class="col-md-12">用户昵称</label>
+								<i class="fa fa-star"></i>
+								<div class="col-md-12">
+									<input type="text" placeholder="用户名称" class="form-control form-control-line" name="userName" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">真实姓名</label>
+
+								<div class="col-md-12">
+									<input type="number" placeholder="真实姓名" class="form-control form-control-line" name="realName">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">性别</label>
+								<i class="fa fa-star"></i>
+								<div class="col-md-12">
+									<select class="form-control form-control-line" id="select_gender" name="gender" required>
+										<option value="男" selected>男</option>
+										<option value="女">女</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">邮箱</label>
+								<div class="col-md-12">
+									<input type="email" placeholder="邮箱" class="form-control form-control-line" name="email">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">电话</label>
+								<i class="fa fa-star"></i>
+								<div class="col-md-12">
+									<input type="tel" placeholder="电话" class="form-control form-control-line" name="phone" required>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-12">小区</label>
+								<i class="fa fa-star"></i>
+								<div class="col-md-12">
+									<select class="form-control form-control-line" id="select_village" name="village" required>
+
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">详细地址</label>
+								<i class="fa fa-star"></i>
+								<div class="col-md-12">
+									<input type="text" placeholder="详细地址" class="form-control form-control-line" name="address" required>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-12">头像</label>
+								<div class="col-md-12">
+									<input type="file" class="form-control form-control-line" onchange="show(this)" name="image_f">
+								</div>
+								<img id="img" src="">
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-12">
+									<button class="btn btn-success" type="submit">注册</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- /#wrapper -->
+		<!-- jQuery -->
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Menu Plugin JavaScript -->
+		<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+		<!--Nice scroll JavaScript -->
+		<script src="js/jquery.nicescroll.js"></script>
+		<!--Wave Effects -->
+		<script src="js/waves.js"></script>
+		<!-- Custom Theme JavaScript -->
+		<script src="js/myadmin.js"></script>
+
+		<script type="text/javascript">
+
+			//==========及时回显图片=========
+			function show(file) {
+				var reader = new FileReader(); // 实例化一个FileReader对象，用于读取文件
+				var img = document.getElementById('img'); // 获取要显示图片的标签
+
+				//读取File对象的数据
+				reader.onload = function(evt) {
+					img.width = "80";
+					img.height = "80";
+					img.src = evt.target.result;
+				}
+				reader.readAsDataURL(file.files[0]);
+			}
+
+
+			$(document).ready(function () {
+				//=========加载全部小区=========
+				$.ajax({
+					url:"/getAllVillages",
+					dataType:"json",
+					type:"post",
+					success:function (content) {
+						for (var i =0;i<content.length;i++){
+							$("#select_village").append("<option value='"+content[i].id+"'> "+content[i].villageName+"</option>");
+						}
+					}
+				});
+			})
+
+
+
+		</script>
+	</body>
+
+</html>

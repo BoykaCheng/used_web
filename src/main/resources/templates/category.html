@@ -1,0 +1,349 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index, follow">
+        <title>花生</title>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin" type="text/css" />
+        <!-- Essential styles -->
+        <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome.css" type="text/css">
+
+        <!-- Dlapak styles -->
+        <link id="theme_style" type="text/css" href="/assets/css/style1.css" rel="stylesheet" media="screen">
+
+        <!-- Assets -->
+        <link rel="stylesheet" href="/assets/plugins/owl-carousel/owl.carousel.css">
+        <link rel="stylesheet" href="/assets/plugins/owl-carousel/owl.theme.css">
+
+        <!-- JS Library -->
+        <script src="/assets/js/jquery.js"></script>
+
+    </head>
+    <body>
+        <div class="wrapper">
+            <header class="navbar navbar-default navbar-fixed-top navbar-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                            <span class="sr-only"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="/index" class="navbar-brand"><span class="logo"><i class="fa fa-recycle"></i> 二手商城</span></a>
+                    </div>
+
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="new-ads"><a href="/toNeedPage" class="btn btn-ads btn-block">进入求购论坛</a></li>
+                            
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong>&nbsp;选项</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/toShelfPro">上架商品</a></li>
+                                    <li><a href="#">我发布的商品</a></li>
+                                    <li><a href="#">喜欢的商品</a></li>
+                                    <li><a class="to_cart">购物车</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
+                                <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
+                                    <span>个人积分：</span><span style="font-weight: bolder">50分</span><br>
+                                    <span th:if="${session.user.huiY == 1}">会员中心</span><br>
+                                    <span th:if="${session.user.huiY == 0}">您还不是会员，<a href="#">点击</a>加入</span><br>
+                                    <button type="submit" class="btn btn-custom btn-block"><a href="/toPersonalCenter">个人中心</a></button>
+                                    <button type="button" class="btn btn-custom btn-block logoutBtn">注销</button>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <div class="category-search">
+                <div class="container">
+                    <div class="row category-search-box">
+                        <form action="/getProByExample" method="post">
+                            <div class="col-md-3 col-sm-3  cat-search-input">
+                                <select class="form-control" id="board-select">
+
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-sm-3  cat-search-input">
+                                <select class="form-control" id="topic-select" name="topicId">
+
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-sm-3  cat-search-input">
+                                <input type="text" class="form-control" placeholder="关键字查询..." name="keyWord">
+                            </div>
+                            <div class="col-md-1 col-sm-1  cat-search-input">
+                                <input type="checkbox" class="form-control checkbox-inline" name="flag" id="flag">
+                            </div>
+                            <div class="col-md-2 col-sm-2  cat-search-input">
+                                <button class="btn btn-custom btn-block" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <section class="category-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="breadcrumb pull-right">
+                                <li><a href="/index">主页</a></li>
+                                <li><a href="/toUsedPage">板块</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    <h3>目录</h3>
+                                </div>
+                                <div class="widget-body">
+                                    <ul class="trends" th:each="topic,topicStatu : ${topics}">
+                                        <li><a th:href="@{'/getProByExample?boardId='+${boardId}+'&topicId='+${topic.id}}"><span th:text="${topic.topicName}"></span> &nbsp;<span class="item-numbers" th:text="'('+${topic.topicNum}+')'"></span></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <div class="category-header no-margin-bottom">
+                                <div class="row">
+                                    <form action="/getProByExample" method="post">
+                                        <div class="col-md-4  cat-search-input">
+                                            <select class="form-control" name="columnSort">
+                                                <option selected="selected" value="">默认排序规则</option>
+                                                <option value="shelf ASC">按上架时间升序</option>
+                                                <option value="shelf DESC">按上架时间降序</option>
+                                                <option value="price ASC">按价格升序</option>
+                                                <option value="price DESC">按价格降序</option>
+                                                <option value="level ASC">按成色升序</option>
+                                                <option value="level DESC">按成色降序</option>
+                                                <option value="sales ASC">按销量升序</option>
+                                                <option value="sales DESC">按销量降序</option>
+                                                <option>按访问量排序</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4  cat-search-input">
+                                            <select class="form-control" name="level">
+                                                <option selected="selected" value="0">默认排序规则</option>
+                                                <option value="9">9成新以上</option>
+                                                <option value="5">5成新以上</option>
+                                                <option value="1">1成新以下</option>
+                                            </select>
+                                        </div>
+                                        <!--这里的input知识接收值，不显示-->
+                                        <div th:if="${condition.topicId !=null}" style="display: none">
+                                            <input type="text" th:value="${condition.topicId}" name="topicId">
+                                        </div>
+                                        <div style="display: none" th:if="${condition.keyWord !=null}">
+                                            <input type="text" th:value="${condition.keyWord}" name="keyWord">
+                                        </div>
+                                        <div style="display: none" th:if="${boardId !=null}">
+                                            <input type="text" th:value="${boardId}" name="boardId">
+                                        </div>
+
+                                        <!--END 这里的input知识接收值，不显示-->
+                                        <div class="col-md-4 text-right  cat-search-input">
+                                            <div class="view-type">
+                                                <button class="btn btn-custom btn-block" type="submit"><i class="fa fa-check-circle"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="search-results-box">
+                                <div class="row">
+                                    <div class="col-md-12 search-results">
+                                        关键字 : <span th:text="${keyWord}"></span> <span>|</span> 结果 : <span th:text="${pageInfo.list.size()}"></span> 条
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-results">
+                                <div class="row">
+                                    <div class="col-sm-12" th:each="pro,proStat : ${pageInfo.list}">
+
+                                        <div class="item-ads">
+                                            <div class="row">
+                                                <div class="col-sm-2 col-xs-3">
+                                                    <div class="item-badge featured-ads">
+                                                        <a href="#" th:text="${pro.level}+'成新'"></a>
+                                                    </div>
+                                                    <div class="item-img">
+                                                        <img alt="" th:src="${pro.image}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8 col-xs-6">
+                                                    <div class="item-title">
+                                                        <a th:href="@{'/detailPro/'+${pro.id}}"><h4 th:text="${pro.name}"></h4></a>
+                                                    </div>
+                                                    <div class="item-meta">
+                                                        <ul>
+                                                            <li class="item-date"><i class="fa fa-clock-o"></i> <span th:text="'上架时间：'+${#dates.format(pro.shelf,'yyyy-MM-dd HH:mm:ss')}+'|'"></span></li>
+                                                            <li class="item-cat hidden-xs"><i class="fa fa-bars"></i> <a href="#" th:text="${map[pro.topicId]}"></a> , <a href="#" th:text="'数量：'+${pro.count}+'|'"></a></li>
+                                                            <li class="item-location hidden-xs">
+                                                                <a href="#">
+                                                                    <i class="fa fa-map-marker"></i>
+                                                                    <span th:text="${tranMap[pro.transaction]}"></span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 col-xs-3">
+                                                    <div class="item-price">
+                                                        <h3 th:text="'￥：'+${pro.price}"></h3>
+                                                        <span th:text="'销量：'+${pro.sales}"></span>
+                                                    </div>
+                                                    <div class="item-action">
+                                                        <ul>
+                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="加入喜欢" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
+                                                            <li><a th:href="@{'/toCartChooseNum/'+${pro.id}}" data-toggle="tooltip" data-placement="top" title="加入购物车" class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+
+                                    <ul class="pagination" th:each="page,pageStatu : ${pageInfo.navigatepageNums}">
+                                        <li class="active"><a href="#" th:text="${page}"></a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </section>
+            <div class="footer">
+                <div class="container">
+                <ul class="pull-left footer-menu">
+                    <li>
+                        <a href="#"> Home </a>
+                        <a href="#"> About us </a>
+                        <a href="#"> Contact us </a>
+                    </li>
+                </ul>
+                <ul class="pull-right footer-menu">
+                    <li>Copyright &copy; 2018.BoyKaCheng</li>
+                </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Essentials -->
+        <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/assets/plugins/owl-carousel/owl.carousel.js"></script>
+        <script src="/assets/plugins/counter/jquery.countTo.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+
+                //==========注销===========
+                $(".logoutBtn").click(function () {
+                    var r = confirm("确定注销本账号吗?");
+                    if (r){
+                        $.ajax({
+                            url:"/logout",
+                            type:"POST",
+                            dataType:"text",
+                            success:function (content) {
+                                if (content == "success"){
+                                    alert("注销成功");
+                                    window.location.href="/index";
+                                }
+                            }
+                        })
+                    }
+                });
+
+                // ==================将板块类别加载出来====================
+                var boardSelect = $("#board-select");
+                //后台传过来的boardId值，用于回显
+                var sBoardId = "[[${boardId}]]";
+                $.ajax({
+                    url:"/getAllBoard",
+                    type:"GET",
+                    dataType:"json",
+                    success:function (content) {
+                        for (var i = 0;i<content.length;i++){
+                            if(content[i].id == sBoardId){
+                                boardSelect.append("<option value='"+content[i].id+"' selected='selected'> "+content[i].boardName+"</option>");
+                            }else{
+                                boardSelect.append("<option value='"+content[i].id+"'> "+content[i].boardName+"</option>");
+                            }
+
+                            //将对应板块的子类别数像是出来
+                            $("#board"+(i+1)+"_num").text(content[i].topicNum);
+                        }
+                    }
+                });
+
+                //==================通过点击具体板块异步加载子选项====================
+                boardSelect.change(function () {
+                    var boardId = boardSelect.val();
+                    var $topic = $("#topic-select");
+
+                    $.ajax({
+                        url:"/getTopicByBoardId",
+                        data:{
+                            "boardId":boardId
+                        },
+                        dataType:"json",
+                        success:function (content) {
+                            $topic.empty();
+                            for (var i =0; i<content.length;i++){
+                                $topic.append("<option value='"+content[i].id+"'> "+content[i].topicName+"</option>");
+
+                            }
+                        }
+                    })
+                });
+                //==================鼠标移动移出改变颜色====================
+                $(".item-ads").mouseover(function () {
+                    $(this).attr("class",'item-ads highlight-ads');
+                });
+                $(".item-ads").mouseout(function () {
+                    $(this).attr("class",'item-ads');
+                });
+
+                //==================是否只通过关键字查询====================
+                $("#flag").change(function () {
+                    if($(this).is(":checked")){
+                        $("#topic-select").attr("disabled","disabled");
+                        $("#flag").val(true);
+                    }else{
+                        $("#topic-select").removeAttr("disabled");
+                        $("#flag").val(false);
+                    }
+                    console.log($("#topic-select").val());
+                    console.log($("#flag").val());
+                });
+
+                //======进入购物车=========
+                $(".to_cart").click(function () {
+                    window.open("/toMyCart",'购物车', 'height=400, width=800');
+
+                })
+            });
+        </script>
+    </body>
+</html> 

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cque.usedweb.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.cque.usedweb.entity.Product" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="modify" property="modify" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="topic_id" property="topicId" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="display" property="display" jdbcType="INTEGER" />
+    <result column="transaction" property="transaction" jdbcType="INTEGER" />
+    <result column="sales" property="sales" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="shelf" property="shelf" jdbcType="TIMESTAMP" />
+    <result column="statu" property="statu" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, modify, name, level, remark, price, topic_id, count, display, transaction, sales, 
+    user_id, image, shelf, statu
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cque.usedweb.entity.ProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cque.usedweb.entity.ProductExample" >
+    delete from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cque.usedweb.entity.Product" >
+    insert into product (id, modify, name, 
+      level, remark, price, 
+      topic_id, count, display, 
+      transaction, sales, user_id, 
+      image, shelf, statu
+      )
+    values (#{id,jdbcType=INTEGER}, #{modify,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{topicId,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, #{display,jdbcType=INTEGER}, 
+      #{transaction,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{image,jdbcType=VARCHAR}, #{shelf,jdbcType=TIMESTAMP}, #{statu,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cque.usedweb.entity.Product" useGeneratedKeys="true" keyProperty="id" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="modify != null" >
+        modify,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="topicId != null" >
+        topic_id,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="display != null" >
+        display,
+      </if>
+      <if test="transaction != null" >
+        transaction,
+      </if>
+      <if test="sales != null" >
+        sales,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="shelf != null" >
+        shelf,
+      </if>
+      <if test="statu != null" >
+        statu,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modify != null" >
+        #{modify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="topicId != null" >
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="display != null" >
+        #{display,jdbcType=INTEGER},
+      </if>
+      <if test="transaction != null" >
+        #{transaction,jdbcType=INTEGER},
+      </if>
+      <if test="sales != null" >
+        #{sales,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="shelf != null" >
+        #{shelf,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statu != null" >
+        #{statu,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cque.usedweb.entity.ProductExample" resultType="java.lang.Integer" >
+    select count(*) from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.modify != null" >
+        modify = #{record.modify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.topicId != null" >
+        topic_id = #{record.topicId,jdbcType=INTEGER},
+      </if>
+      <if test="record.count != null" >
+        count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.display != null" >
+        display = #{record.display,jdbcType=INTEGER},
+      </if>
+      <if test="record.transaction != null" >
+        transaction = #{record.transaction,jdbcType=INTEGER},
+      </if>
+      <if test="record.sales != null" >
+        sales = #{record.sales,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shelf != null" >
+        shelf = #{record.shelf,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.statu != null" >
+        statu = #{record.statu,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product
+    set id = #{record.id,jdbcType=INTEGER},
+      modify = #{record.modify,jdbcType=TIMESTAMP},
+      name = #{record.name,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      topic_id = #{record.topicId,jdbcType=INTEGER},
+      count = #{record.count,jdbcType=INTEGER},
+      display = #{record.display,jdbcType=INTEGER},
+      transaction = #{record.transaction,jdbcType=INTEGER},
+      sales = #{record.sales,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR},
+      shelf = #{record.shelf,jdbcType=TIMESTAMP},
+      statu = #{record.statu,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cque.usedweb.entity.Product" >
+    update product
+    <set >
+      <if test="modify != null" >
+        modify = #{modify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="topicId != null" >
+        topic_id = #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="display != null" >
+        display = #{display,jdbcType=INTEGER},
+      </if>
+      <if test="transaction != null" >
+        transaction = #{transaction,jdbcType=INTEGER},
+      </if>
+      <if test="sales != null" >
+        sales = #{sales,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="shelf != null" >
+        shelf = #{shelf,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statu != null" >
+        statu = #{statu,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cque.usedweb.entity.Product" >
+    update product
+    set modify = #{modify,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      topic_id = #{topicId,jdbcType=INTEGER},
+      count = #{count,jdbcType=INTEGER},
+      display = #{display,jdbcType=INTEGER},
+      transaction = #{transaction,jdbcType=INTEGER},
+      sales = #{sales,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      shelf = #{shelf,jdbcType=TIMESTAMP},
+      statu = #{statu,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByDyCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from product
+    <where>
+      <if test="topicId != null">
+        topic_id = #{topicId}
+      </if>
+      <if test="keyWord != null">
+        and name like concat('%',#{keyWord},'%')
+      </if>
+      and
+      statu = 0
+      and
+      display = 1
+
+    </where>
+  </select>
+  <select id="selectDealNums" resultMap="BaseResultMap">
+    select * from product
+    where
+    statu = 1
+  </select>
+
+  <select id="selectProByTopicId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from product
+    where
+    topic_id = #{topicId}
+    and
+    statu = 0
+    and
+    display = 1
+  </select>
+</mapper>

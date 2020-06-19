@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<style type="text/css">
+			#allmap{height:300px;width:50%;}
+			#r-result{width:100%; font-size:14px;}
+		</style>
+		<!-- 百度地图 -->
+		<script type="text/javascript" src="//api.map.baidu.com/api?v=1.0&type=webgl&ak=fv5jURZLIT7cp15AzGsgwaQh6moPqPlI"></script>
+		<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=fv5jURZLIT7cp15AzGsgwaQh6moPqPlI"></script>
+		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+		<title>添加社区</title>
+		<!-- Bootstrap Core CSS -->
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Menu CSS -->
+		<link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="css/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="white-box">
+						<h3 class="text-center">
+							添加社区
+						</h3>
+						<form class="form-horizontal form-material" action="/addVillage" method="post">
+							<div class="form-group">
+								<label class="col-md-12">省</label>
+								<div class="col-md-12">
+									<select class="form-control form-control-line" id="select_pro" name="province">
+										<option>选择省份</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">市</label>
+								<div class="col-md-12">
+									<select class="form-control form-control-line" id="select_city" name="city">
+										<option>选择市区</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">县</label>
+								<div class="col-md-12">
+									<select class="form-control form-control-line" id="select_county" name="county">
+										<option>选择县</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">社区名称</label>
+								<div class="col-md-12">
+									<input type="text" placeholder="社区名称" class="form-control form-control-line" name="villageName">
+								</div>
+							</div>
+							<input type="text" class="form-control form-control-line" name="lng" id="i_lng" style="display: none">
+							<input type="text" class="form-control form-control-line" name="lat" id="i_lat" style="display: none">
+
+							<div class="form-group">
+								<div class="col-sm-12">
+									<button class="btn btn-success" type="submit">确认添加</button>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-12">详细地址</label>
+								<div id="allmap"></div>
+								<div id="r-result">
+									请输入地名: <input id="suggestId" type="text" style="width:300px; margin-right:10px;" />
+									<input type="button" value="查询" onclick="theLocation()" />
+								</div>
+								<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;">
+								</div>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- /#wrapper -->
+		<!-- jQuery -->
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Menu Plugin JavaScript -->
+		<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+		<!--Nice scroll JavaScript -->
+		<script src="js/jquery.nicescroll.js"></script>
+		<!--Wave Effects -->
+		<script src="js/waves.js"></script>
+		<!-- Custom Theme JavaScript -->
+		<script src="js/myadmin.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var pro = $("#select_pro");
+				var city = $("#select_city");
+				var county = $("#select_county");
+				$.ajax({
+					"url":"/getAllProvinces",
+					"type":"GET",
+					"dataType":"json",
+					success:function (content) {
+						pro.empty();
+						pro.append("<option value=>选择省份</option>");
+						for (var i =0;i<content.length;i++){
+							pro.append("<option value='"+content[i].cnId+"'>"+content[i].cnName+"</option>");
+						}
+					}
+				});
+
+				pro.change(function () {
+					var pro_id = $(this).val();
+					$.ajax({
+						url:"/getCitys/"+pro_id,
+						dataType:"json",
+						type:"GET",
+
+						success:function (content) {
+							city.empty();
+							city.append("<option value=>选择市区</option>");
+							county.empty();
+							county.append("<option value=>选择县</option>");
+							for (var i =0;i<content.length;i++){
+								city.append("<option value='"+content[i].cnId+"'>"+content[i].cnName+"</option>");
+							}
+						}
+					})
+				});
+
+				city.change(function () {
+					var city_id = $(this).val();
+					$.ajax({
+						url:"/getCountys/"+city_id,
+						dataType:"json",
+						type:"GET",
+
+						success:function (content) {
+							county.empty();
+							county.append("<option value=>选择县</option>");
+							for (var i =0;i<content.length;i++){
+								county.append("<option value='"+content[i].cnId+"'>"+content[i].cnName+"</option>");
+							}
+						}
+					})
+				});
+				//-----------------地图-------------------
+				// 百度地图API功能
+				var point = new BMap.Point(106.583059, 29.517432);		// 创建点坐标 (学府大道校区)
+				var point1 = new BMap.Point(106.603774, 29.503511);
+				var map = new BMap.Map("allmap");
+				map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+				map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+				//var walking = new BMap.WalkingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+				//walking.search(point1, point);
+
+				//搜索框
+				function theLocation(){
+					var city = document.getElementById("suggestId").value;
+					if(city != ""){
+						map.centerAndZoom(city,11);      // 用城市名设置地图中心点
+					}
+				}
+				// 搜索框提示
+				function G(id) {
+					return document.getElementById(id);
+				}
+				var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+						{"input" : "suggestId"
+							,"location" : map
+						});
+				ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+					var str = "";
+					var _value = e.fromitem.value;
+					var value = "";
+					if (e.fromitem.index > -1) {
+						value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+					}
+					str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+					value = "";
+					if (e.toitem.index > -1) {
+						_value = e.toitem.value;
+						value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+					}
+					str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+					G("searchResultPanel").innerHTML = str;
+				});
+
+				var myValue;
+				ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+					var _value = e.item.value;
+					myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+					G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+					setPlace();
+				});
+
+				function setPlace(){
+					map.clearOverlays();    //清除地图上所有覆盖物
+					function myFun(){
+						var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+						map.centerAndZoom(pp, 18);
+						map.addOverlay(new BMap.Marker(pp));    //添加标注
+					}
+					var local = new BMap.LocalSearch(map, { //智能搜索
+						onSearchComplete: myFun
+					});
+					local.search(myValue);
+				}
+
+				//通过点击得到经纬度
+				map.addEventListener("click",function(e){
+					var lat = e.point.lat;
+					var lng = e.point.lng;
+					var r = confirm("确认将此地作为您社区的地址");
+					if(r){
+						$("#i_lng").val(lng);
+						$("#i_lat").val(lat);
+					}
+
+				})
+
+			})
+
+
+
+
+		</script>
+	</body>
+
+</html>

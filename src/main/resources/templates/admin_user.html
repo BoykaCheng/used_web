@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <title>花生后台管理</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Menu CSS -->
+    <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
+            <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
+                <div class="top-left-part"><a class="logo" href="#"><i class="glyphicon glyphicon-fire"></i>&nbsp;<span class="hidden-xs">花生管理</span></a></div>
+                <ul class="nav navbar-top-links navbar-left hidden-xs">
+                    <li><a href="javascript:void(0)" class="open-close hidden-xs hidden-lg waves-effect waves-light"><i class="ti-arrow-circle-left ti-menu"></i></a></li>
+                </ul>
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li>
+                        <form role="search" class="app-search hidden-xs">
+                            <input type="text" placeholder="搜索..." class="form-control">
+                            <a href=""><i class="ti-search"></i></a>
+                        </form>
+                    </li>
+                    <li>
+                        <a class="profile-pic" href=""> <img th:src="${session.user.avatar}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs" th:text="${session.user.userName}"></b> </a>
+                    </li>
+                </ul>
+            </div>
+
+        </nav>
+        <div class="navbar-default sidebar nicescroll" role="navigation">
+            <div class="sidebar-nav navbar-collapse ">
+                <ul class="nav" id="side-menu" th:if="${session.user.huiY == 2}">
+                    <li class="sidebar-search hidden-sm hidden-md hidden-lg">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="搜索...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"><i class="ti-search"></i> </button>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/toCheckUserPage" class="waves-effect"><i class="ti-user fa-fw"></i>用户管理</a>
+                    </li>
+                    <li>
+                        <a href="/toCheckProPage" class="waves-effect"><i class="ti-layout fa-fw"></i>商品管理</a>
+                    </li>
+                    <li>
+                        <a href="/toCheckArticlePage" class="waves-effect"><i class="ti-search fa-fw"></i>帖子管理</a>
+                    </li>
+                    <li>
+                        <a href="/toCheckBoardPage" class="waves-effect"><i class="ti-menu fa-fw"></i>板块管理</a>
+                    </li>
+                    <li>
+                        <a href="/toCheckTopicPage" class="waves-effect"><i class="ti-menu-alt fa-fw"></i>子类别管理</a>
+                    </li>
+                    <li>
+                        <a href="/toCheckVillagePage" class="waves-effect"><i class="ti-home fa-fw"></i>社区管理</a>
+                    </li>
+                    <li>
+                        <a href="/toCheckTranPage" class="waves-effect"><i class="ti-location-arrow fa-fw"></i>交易方式管理</a>
+                    </li>
+                    <li>
+                        <a href="/toCheckDealPage" class="waves-effect"><i class="ti-search fa-fw"></i>交易记录管理</a>
+                    </li>
+                </ul>
+                <ul class="nav" th:unless="${session.user.huiY == 2}">
+                    <li>
+                        <span style="font-size: large;color: red">请以管理员身份登</span>
+                    </li>
+                </ul>
+                <div class="center p-20">
+                    <span class="hide-menu"><a href="#"  class="btn btn-info btn-block btn-rounded waves-effect waves-light">待办</a></span>
+                </div>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-12">
+                        <h4 class="page-title">用户管理</h4>
+                        <ol class="breadcrumb">
+                            <li><a href="#">仪表盘</a></li>
+                            <li class="active">用户管理</li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- row -->
+                <div class="row" th:if="${session.user.huiY == 2}">
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <h3>用户管理</h3>
+                            <div class="btn-group">
+                                <button class="btn btn-default">选择</button> <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="/toCheckUserPage?flag=0">所有用户</a>
+                                    </li>
+                                    <li>
+                                        <a href="/toCheckUserPage?flag=1">会员用户</a>
+                                    </li>
+                                    <li>
+                                        <a href="/toCheckUserPage?flag=2">锁定用户</a>
+                                    </li>
+                                    <li class="divider">
+                                    </li>
+                                    <li>
+                                        <a href="#"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            昵称
+                                        </th>
+                                        <th>
+                                            邮箱
+                                        </th>
+                                        <th>
+                                            电话
+                                        </th>
+                                        <th>
+                                            真实姓名
+                                        </th>
+                                        <th>
+                                            社区
+                                        </th>
+                                        <th>
+                                            地址
+                                        </th>
+                                        <th>
+                                            性别
+                                        </th>
+                                        <th>
+                                            注册时间
+                                        </th>
+                                        <th>
+                                            用户类型
+                                        </th>
+                                        <th>
+                                            是否锁定
+                                        </th>
+                                        <th>
+                                            操作
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="user,userStatu : ${users}">
+                                        <td>
+                                            <span th:text="${user.userName}"></span>
+                                        </td>
+
+                                        <td>
+                                            <span th:text="${user.email}"></span>
+                                        </td>
+
+                                        <td>
+                                            <span th:text="${user.phone}"></span>
+                                        </td>
+
+                                        <td>
+                                            <span th:text="${user.realName}"></span>
+                                        </td>
+
+                                        <td>
+                                            <span th:text="${user.village}"></span>
+                                        </td>
+
+                                        <td>
+                                            <span th:text="${user.address}"></span>
+                                        </td>
+
+                                        <td>
+                                            <span th:text="${user.gender}"></span>
+                                        </td>
+
+                                        <td>
+                                            <span th:text="${#dates.format(user.createTime,'yyyy-MM-dd HH:mm:ss')}"></span>
+                                        </td>
+
+                                        <td>
+                                            <span th:if="${user.huiY == 1}">
+                                                会员用户
+                                            </span>
+                                            <span th:if="${user.huiY == 0}">
+                                                普通用户
+                                            </span>
+                                            <span th:if="${user.huiY == 2}">
+                                                管理员
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span th:if="${user.locked == 1}">
+                                                已锁定
+                                            </span>
+                                            <span th:if="${user.locked == 0}">
+                                                正常
+                                            </span>
+                                        </td>
+
+                                        <div th:if="${user.huiY == 2}">
+                                            <td>
+                                                无法操作管理员
+                                            </td>
+                                        </div>
+                                        <div th:unless="${user.huiY == 2}">
+                                            <td th:if="${user.locked == 0}">
+                                                <input th:value="${user.id}" style="display: none">
+                                                <button class="btn btn-success btn-small okBtn" flag="1">锁定用户</button>
+                                            </td>
+                                            <td th:if="${user.locked == 1}">
+                                                <input th:value="${user.id}" style="display: none">
+                                                <button class="btn btn-danger banBtn" flag="0">解锁用户</button>
+                                            </td>
+                                        </div>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/vendor/js/popper.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <!--Nice scroll JavaScript -->
+    <script src="js/jquery.nicescroll.js"></script>
+    <!--Wave Effects -->
+    <script src="js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="js/myadmin.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //=========上架下架商品==========
+            $(".okBtn,.banBtn").click(function () {
+                var userId = $(this).parent().children('input').val();
+                var name = $(this).parents("tr").children('td').eq(0).children('span').text();
+                var flag = $(this).attr("flag");
+                var opera;
+                if (flag == 1){
+                    opera = "锁定";
+                } else{
+                    opera = "解锁";
+                }
+                var r = confirm("确定"+opera+"用户："+name+"吗？");
+                if (r==true){
+                    $.ajax({
+                        url:"/checkUser",
+                        type:"POST",
+                        dataType:"text",
+                        data:{
+                            "userId":userId,
+                            "flag":flag
+                        },
+                        success:function (content) {
+                            if (content == "success"){
+                                alert(opera+"成功");
+                                window.location.reload();
+                            } else{
+                                alert(opera+"失败");
+                            }
+
+                        }
+                    })
+                }
+
+            })
+
+        })
+    </script>
+</body>
+
+</html>

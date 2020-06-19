@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+		<title>编辑板块</title>
+		<!-- Bootstrap Core CSS -->
+		<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Menu CSS -->
+		<link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="css/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="white-box">
+						<h3 class="text-center">
+							编辑板块
+						</h3>
+						<form class="form-horizontal form-material" action="/changeBoard" method="post">
+							<div class="form-group">
+								<label class="col-md-12">板块名称</label>
+								<div class="col-md-12">
+									<input type="number" th:value="${board.id}" style="display: none" name="id">
+									<input type="text" placeholder="板块名称" class="form-control form-control-line" name="boardName" th:value="${board.boardName}">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-12">板块描述</label>
+								<div class="col-md-12">
+									<textarea rows="5" class="form-control form-control-line" name="boardDesc" th:text="${board.boardDesc}"></textarea>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-12">
+									<button class="btn btn-success" type="submit">确认修改</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- /#wrapper -->
+		<!-- jQuery -->
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<!-- Menu Plugin JavaScript -->
+		<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+		<!--Nice scroll JavaScript -->
+		<script src="js/jquery.nicescroll.js"></script>
+		<!--Wave Effects -->
+		<script src="js/waves.js"></script>
+		<!-- Custom Theme JavaScript -->
+		<script src="js/myadmin.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+			})
+
+
+
+		</script>
+	</body>
+
+</html>

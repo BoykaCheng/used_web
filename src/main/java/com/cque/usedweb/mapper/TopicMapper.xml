@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cque.usedweb.dao.TopicMapper" >
+  <resultMap id="BaseResultMap" type="com.cque.usedweb.entity.Topic" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+    <result column="board_id" property="boardId" jdbcType="INTEGER" />
+    <result column="topic_desc" property="topicDesc" jdbcType="VARCHAR" />
+    <result column="topic_num" property="topicNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, topic_name, board_id, topic_desc, topic_num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cque.usedweb.entity.TopicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from topic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from topic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cque.usedweb.entity.TopicExample" >
+    delete from topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cque.usedweb.entity.Topic" >
+    insert into topic (id, topic_name, board_id, 
+      topic_desc, topic_num)
+    values (#{id,jdbcType=INTEGER}, #{topicName,jdbcType=VARCHAR}, #{boardId,jdbcType=INTEGER}, 
+      #{topicDesc,jdbcType=VARCHAR}, #{topicNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cque.usedweb.entity.Topic" keyProperty="id" useGeneratedKeys="true" >
+    insert into topic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="topicName != null" >
+        topic_name,
+      </if>
+      <if test="boardId != null" >
+        board_id,
+      </if>
+      <if test="topicDesc != null" >
+        topic_desc,
+      </if>
+      <if test="topicNum != null" >
+        topic_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="topicName != null" >
+        #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="boardId != null" >
+        #{boardId,jdbcType=INTEGER},
+      </if>
+      <if test="topicDesc != null" >
+        #{topicDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="topicNum != null" >
+        #{topicNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cque.usedweb.entity.TopicExample" resultType="java.lang.Integer" >
+    select count(*) from topic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update topic
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.topicName != null" >
+        topic_name = #{record.topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boardId != null" >
+        board_id = #{record.boardId,jdbcType=INTEGER},
+      </if>
+      <if test="record.topicDesc != null" >
+        topic_desc = #{record.topicDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topicNum != null" >
+        topic_num = #{record.topicNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update topic
+    set id = #{record.id,jdbcType=INTEGER},
+      topic_name = #{record.topicName,jdbcType=VARCHAR},
+      board_id = #{record.boardId,jdbcType=INTEGER},
+      topic_desc = #{record.topicDesc,jdbcType=VARCHAR},
+      topic_num = #{record.topicNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cque.usedweb.entity.Topic" >
+    update topic
+    <set >
+      <if test="topicName != null" >
+        topic_name = #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="boardId != null" >
+        board_id = #{boardId,jdbcType=INTEGER},
+      </if>
+      <if test="topicDesc != null" >
+        topic_desc = #{topicDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="topicNum != null" >
+        topic_num = #{topicNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cque.usedweb.entity.Topic" >
+    update topic
+    set topic_name = #{topicName,jdbcType=VARCHAR},
+      board_id = #{boardId,jdbcType=INTEGER},
+      topic_desc = #{topicDesc,jdbcType=VARCHAR},
+      topic_num = #{topicNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByBoardId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from topic
+    where
+    board_id = #{boardId}
+  </select>
+</mapper>

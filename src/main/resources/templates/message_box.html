@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--meta tags-->
+    <meta charset="UTF-8">
+    <meta name="description" content="Services Listing HTML5 CSS3 template">
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript, services, listing">
+    <meta name="author" content="Ui-DesignLab">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--end meta tags-->
+
+    <title>花生</title>
+    <!--stylesheets-->
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/animate.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendor/perfect-scrollbar/css/perfect-scrollbar.min.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="css/qq.css"/>
+    <!--end stylesheets-->
+    <!--google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Cairo|Nosifer|Poppins" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700|Raleway|Tangerine" rel="stylesheet">
+    <!--end google fonts-->
+</head>
+<body>
+     
+
+
+<!--navigation bars-->
+
+<nav class="site-top-nav">
+    <div class="logo">
+        <a href="/index">
+            <img src="img/msg_box/logo.jpg" alt="">
+            <strong>花生</strong>
+        </a>
+    </div>
+    <ul class="site-menu">
+		<li><a href="/index">家</a></li>
+		<li><a href="#">联系我们</a></li>
+		<li><a href="#">关于</a></li>
+    </ul>
+    <i class="nav-toggle fa fa-bars"></i>
+</nav>
+
+<!--手机侧面导航 -->
+<div id="side-nav" class="side-nav">
+    <div class="side-nav-menu perfect-scroll">
+        <div class="text-logo">
+            <a href="/index"><h3>花生</h3></a>
+        </div>
+        <div class="site-user">
+            <div class="site-user-img">
+                <img th:src="${session.user.avatar}" alt="">
+                <span class="online"></span>
+            </div>
+            <a href="#" class="user-name"><strong>程俊峰</strong></a>
+        </div>
+        <ul class="menu">
+            <li><a href="/index" class="current">主页</a></li>
+            <li><a th:href="@{'/getProByExample?userId='+${session.user.id}}">我上架的商品</a></li>
+            <a href="/myArticles" class="ui-btn ui-btn-info">我求购的帖子</a>
+            <li><a class="to_cart">购物车</a></li>
+            <li><a href="/toMyDealPage">交易记录</a></li>
+            <li><a href="#">留言信箱</a></li>
+        </ul>
+        <div class="logoutBtn"><a>注销</a></div>
+    </div>
+</div>
+<!--end 手机侧面导航 -->
+<!--end navigation bars-->
+
+<!--contact us-->
+<div class="contact-wrapper">
+
+        <!--start-->
+        <div class="qqBox">
+            <div class="BoxHead">
+                <div class="headImg">
+                    <img th:src="${session.user.avatar}"/>
+                </div>
+                <div class="internetName" th:text="${session.user.userName}"></div>
+            </div>
+            <div class="context">
+                <div class="conLeft">
+                    <ul>
+                        <li th:each="leavePerson,leavePersonsStatu : ${leavePersons}" th:id="${leavePerson.id}" class="msg_li">
+                            <div class="liLeft"><img th:src="${leavePerson.avatar}" width="50px" height="50px"/></div>
+                            <div class="liRight">
+                                <span class="intername" th:text="${leavePerson.userName}"></span>
+                                <span class="infor"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="conRight">
+                    <div class="Righthead">
+                        <div class="headName"></div>
+                        <div class="headConfig">
+                            <ul>
+                                <li><img src="img/msg_box/20170926103645_06.jpg"/></li>
+                                <li><img src="img/msg_box/20170926103645_08.jpg"/></li>
+                                <li><img src="img/msg_box/20170926103645_10.jpg"/></li>
+                                <li><img src="img/msg_box/20170926103645_12.jpg"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="RightCont">
+                        <ul class="newsList">
+
+                        </ul>
+                    </div>
+                    <div class="RightFoot">
+
+                        <div class="inputBox">
+                            <textarea id="dope" style="width: 99%;height: 75px; border: none;outline: none;" name="" rows="" cols=""></textarea>
+                            <button class="sendBtn">发送(s)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end-->
+</div>
+
+<!--end contact us-->
+
+
+
+<!--page loader-->
+<div class="page-loader">
+    <div class="loader"><img src="img/msg_box/logo.png" alt=""></div>
+</div>
+<!--end page loader-->
+
+
+
+<!--scripts-->
+<script src="vendor/js/jquery-3.2.1.min.js"></script>
+<script src="js/chat.js"></script>
+<script src="vendor/js/popper.js"></script>
+<script src="vendor/js/bootstrap.min.js"></script>
+<script src="vendor/js/alertify.js"></script>
+<script src="vendor/js/jquery.knob.min.js"></script>
+<!--[if IE]><script type="text/javascript" src="vendor/js/excanvas.js"></script><![endif]-->
+<script src="vendor/js/summernote-bs4.min.js"></script>
+<script src="vendor/js/dropzone.js"></script>
+<script src="vendor/OwlCarousel2-2.2.1/owl.carousel.min.js"></script>
+<script src="vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="vendor/js/typed.js"></script>
+<script src="js/app.js"></script>
+<!--end scripts-->
+
+<script src="js/map.js"></script>
+<!--
+To use this code on your website, get a free API key from Google.
+Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
+-->
+<script src="http://ditu.google.cn/maps/api/js?key=AIzaSyBt5aXdacpz0IYnuomsPKcoZsh6_TZkJPo&callback=myMap"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var fromUserId;
+        $(".msg_li").click(function () {
+            fromUserId = $(this).attr("id");
+            if (fromUserId != null){
+                $.ajax({
+                    url:"/getMyMsg",
+                    type:"POST",
+                    dataType:"json",
+                    data:{
+                        "fromUserId":fromUserId
+                    },
+                    success:function (content) {
+                        for (var i = 0;i<content.length;i++){
+                            if (content[i].fromUser == fromUserId){
+                                var answer='';
+                                answer+='<li>'+
+                                    '<div class="answerHead"><img src="/img/msg_box/accept.jpg"/></div>'+
+                                    '<div class="answers"><img class="jiao" src="/img/msg_box/jiao.jpg">'+content[i].content+'</div>'+
+                                    '</li>';
+                                $('.newsList').append(answer);
+                            }else{
+                                var str='';
+                                str+='<li>'+
+                                    '<div class="nesHead"><img src="/img/msg_box/send.jpg"/></div>'+
+                                    '<div class="news"><img class="jiao" src="/img/msg_box/20170926103645_03_02.jpg">'+content[i].content+'</div>'+
+                                    '</li>';
+                                $('.newsList').append(str);
+                            }
+                        }
+
+
+                    }
+                })
+            }
+
+        });
+
+        //=====发送消息=====
+        $('.sendBtn').on('click',function(){
+            var news=$('#dope').val();
+            if(news==''){
+                alert('不能为空');
+            }else if (fromUserId == ''){
+                alert('接收人为空');
+            } else{
+
+                var userId = [[${session.user.id}]];
+                $.ajax({
+                    url:"/userMsg",
+                    type:"POST",
+                    dataType:"text",
+                    data:{
+                        "fromUser":userId,
+                        "toUser":fromUserId,
+                        "content":news
+                    },
+                    success:function (content) {
+                    }
+                });
+
+                $('#dope').val('');
+                var str='';
+                str+='<li>'+
+                    '<div class="nesHead"><img src="/img/msg_box/send.jpg"/></div>'+
+                    '<div class="news"><img class="jiao" src="/img/msg_box/20170926103645_03_02.jpg">'+news+'</div>'+
+                    '</li>';
+                $('.newsList').append(str);
+                $('.conLeft').find('li.bg').children('.liRight').children('.infor').text(news);
+                $('.RightCont').scrollTop($('.RightCont')[0].scrollHeight );
+            }
+
+        });
+
+
+        
+    })
+
+</script>
+
+</body>
+</html>
+
