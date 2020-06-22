@@ -41,9 +41,10 @@
 
 
 
-# 系统流程图
+＃系统流程图
+![Image text](http://sec-deal-res.oss-cn-chengdu.aliyuncs.com/userImage/%E5%9B%BE%E7%89%871.png)
 
-![img](file:///C:\Users\ADMINI~1\AppData\Local\Temp\ksohtml9372\wps2.jpg)
+
 
 # 主要数据库表设计
 
