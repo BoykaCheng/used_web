@@ -65,8 +65,8 @@ pagehelper:
 
 userImage:
   endpoint: oss-cn-chengdu.aliyuncs.com
-  keyid: LTAI4GFa1fQqWyCZ7BJ6RJ1L
-  keysecret: fwxFlcNIrDYaqw6jV2A5zgTqGkHrKF
+  keyid: ***
+  keysecret: **
   bucketname: sec-deal-res
   filehost: userImage
   default-avatar: http://sec-deal-res.oss-cn-chengdu.aliyuncs.com/userImage/avatar/default.jpg
